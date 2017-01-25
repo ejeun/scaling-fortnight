@@ -1,3 +1,5 @@
+//Boilerplate to be revised.
+
 import React from 'react'
 
 export const Login = ({ login }) => (
@@ -16,5 +18,5 @@ import {connect} from 'react-redux'
 
 export default connect (
   state => ({}),
-  {login},
+  {login}
 ) (Login)

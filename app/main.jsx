@@ -3,34 +3,26 @@ import React from 'react'
 import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
 import {render} from 'react-dom'
 import {connect, Provider} from 'react-redux'
-
 import store from './store'
-import Jokes from './components/Jokes'
+
 import Login from './components/Login'
-import WhoAmI from './components/WhoAmI'
-import Chat from './components/Chat'
+import Signup from './components/Signup'
+// import Adopt from './components/Adopt'
+import Home from './components/Home'
+import Welcome from './components/Welcome'
+import App from './components/App'
 
-const ExampleApp = connect(
-  ({ auth }) => ({ user: auth })
-) (
-  ({ user, children }) =>
-    <div>
-      <nav>
-        {user ? <WhoAmI/> : <Login/>}
-      </nav>
-      {children}
-    </div>
-)
-
-render (
+render(
   <Provider store={store}>
     <Router history={browserHistory}>
-      <Route path="/" component={ExampleApp}>
-        <IndexRedirect to="/jokes" />
-        <Route path="/jokes" component={Jokes} />
+      <Route path="/" component={App}>
+        <Route path="/welcome" component={Welcome} />
+        <Route path="/signup" component={Signup} />
+        <Route path="/home" component={Home} />
+        <Route path="/login" component={Login} />
         <Route path="/chat" component={Chat} />
       </Route>
     </Router>
   </Provider>,
-  document.getElementById('main')
+  document.getElementById('app')
 )

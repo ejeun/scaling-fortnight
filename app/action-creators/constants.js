@@ -1,0 +1,3 @@
+// User
+export const INITIALIZE_USERS = 'INITIALIZE_USERS'
+export const CREATE_USER = 'CREATE_USER'
