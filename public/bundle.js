@@ -30946,15 +30946,18 @@
 	
 	    _this.state = {
 	      files: {},
+	      holdingURL: '',
 	      imgURL: '',
 	      tags: [],
 	      loading: false,
 	      error: ''
 	    };
 	
+	    _this.handleURLChange = _this.handleURLChange.bind(_this);
 	    _this.handleURLSubmit = _this.handleURLSubmit.bind(_this);
 	    _this.handleImgUpload = _this.handleImgUpload.bind(_this);
 	    _this.validFile = _this.validFile.bind(_this);
+	    _this.useClarifaiAPI = _this.useClarifaiAPI.bind(_this);
 	    _this.storeTags = _this.storeTags.bind(_this);
 	    return _this;
 	  }
@@ -30966,7 +30969,44 @@
 	    key: 'validFile',
 	    value: function validFile(imageName) {
 	      var lowercaseImageName = imageName.toLowerCase();
-	      return lowercaseImageName.indexOf(".jpg") != -1 || lowercaseImageName.indexOf(".jpeg") != -1 || lowercaseImageName.indexOf(".png") != -1 || lowercaseImageName.indexOf(".tiff") != -1 || lowercaseImageName.indexOf(".bmp") != -1;
+	      return lowercaseImageName.indexOf(".jpg") !== -1 || lowercaseImageName.indexOf(".jpeg") !== -1 || lowercaseImageName.indexOf(".png") !== -1 || lowercaseImageName.indexOf(".tiff") !== -1 || lowercaseImageName.indexOf(".bmp") !== -1;
+	    }
+	  }, {
+	    key: 'useClarifaiAPI',
+	    value: function useClarifaiAPI(input) {
+	      var _this2 = this;
+	
+	      // clarifai provides this shortcut way of sending a req with the correct headers (ie. instead of sending a post request to the 3rd party server ourselves and getting the response) you only need to provide either the image in bytes OR a url for the image
+	      // https://developer.clarifai.com/guide/predict
+	
+	      app.models.predict(Clarifai.GENERAL_MODEL, input).then(function (response) {
+	        var predictions = response.outputs[0].data.concepts;
+	
+	        var tags = [];
+	
+	        predictions.forEach(function (guess) {
+	          if (guess.value > 0.80 && guess.name !== 'no person' && guess.name !== 'one') {
+	            tags.push(guess.name);
+	          }
+	        });
+	
+	        // if (tags.length > 7) {
+	        //   tags.splice(7)
+	        // }
+	
+	        // logging in browser so you can see what's happening
+	        // for clarifying purposes only
+	        //  - jenny
+	
+	        console.log('this is the whole response that clarifai sends back ', response);
+	        console.log('inside the response, the outputs array has data on the words associated with the input image, which i call predictions ', predictions);
+	        console.log('i like to filter that array of objects down to just single words of at least 80% certainty', tags);
+	
+	        // this changes the local state, which will
+	        _this2.storeTags(tags);
+	      }, function (err) {
+	        console.error(err);
+	      });
 	    }
 	  }, {
 	    key: 'storeTags',
@@ -30976,31 +31016,47 @@
 	        loading: false
 	      });
 	    }
+	  }, {
+	    key: 'handleURLChange',
+	    value: function handleURLChange(e) {
+	      this.setState({
+	        holdingURL: e.target.value,
+	        tags: []
+	      });
+	    }
 	
 	    // onClick event for providing a url
 	
 	  }, {
 	    key: 'handleURLSubmit',
-	    value: function handleURLSubmit(e) {}
-	    /*    console.log(e.target)
-	    
-	        if(imgurl.value == '') {
-	            alert('Please enter an image URL!');
-	            return;
-	          }
-	    
-	          else if (!this.validFile(imgurl.value)) {
-	            alert('Supported File Types: JPEG, PNG, TIFF, BMP');
-	            return;
-	          }*/
+	    value: function handleURLSubmit(e) {
+	      e.preventDefault();
 	
+	      this.setState({
+	        imgURL: this.state.holdingURL,
+	        loading: true,
+	        tags: []
+	      });
+	
+	      if (!this.state.imgURL.length) {
+	        this.setState({
+	          error: 'Please enter an image URL!'
+	        });
+	      } else if (!this.validFile(this.state.imgURL)) {
+	        this.setState({
+	          error: 'Supported File Types: JPEG, PNG, TIFF, BMP'
+	        });
+	      } else {
+	        this.useClarifaiAPI(this.state.imgURL);
+	      }
+	    }
 	
 	    // onClick event for taking or choosing a local picture file
 	
 	  }, {
 	    key: 'handleImgUpload',
 	    value: function handleImgUpload(e) {
-	      var _this2 = this;
+	      var _this3 = this;
 	
 	      // get the file off of the submit event
 	      var files = e.target.files,
@@ -31012,7 +31068,8 @@
 	
 	        this.setState({
 	          file: file,
-	          loading: true
+	          loading: true,
+	          tags: []
 	        });
 	
 	        try {
@@ -31023,7 +31080,7 @@
 	            URL = window.URL || window.webkitURL;
 	
 	
-	            _this2.setState({
+	            _this3.setState({
 	              imgURL: URL.createObjectURL(file)
 	            });
 	
@@ -31031,37 +31088,9 @@
 	            fileReader.readAsDataURL(file);
 	            // you only have access to the read file inside of this callback(?)function
 	            fileReader.onload = function () {
+	
 	              var imgBytes = fileReader.result.split(',')[1];
-	
-	              // clarifai provides this shortcut way of sending a req with the correct headers (ie. instead of sending a post request to the 3rd party server ourselves and getting the response) you only need to provide the img in bytes.
-	              // https://developer.clarifai.com/guide/predict#via-image-bytes
-	              app.models.predict(Clarifai.GENERAL_MODEL, imgBytes).then(function (response) {
-	                var predictions = response.outputs[0].data.concepts;
-	
-	                var tags = [];
-	
-	                predictions.forEach(function (guess) {
-	                  if (guess.value > 0.80 && guess.name !== 'no person' && guess.name !== 'one') {
-	                    tags.push(guess.name);
-	                  }
-	                });
-	
-	                // if (tags.length > 7) {
-	                //   tags.splice(7)
-	                // }
-	
-	                // logging in browser so you can see what's happening
-	                // for clarifying purposes only
-	                //  - jenny
-	
-	                console.log('this is the whole response that clarifai sends back ', response);
-	                console.log('inside the response, the outputs array has data on the words associated with the input image, which i call predictions ', predictions);
-	                console.log('i like to filter that array of objects down to just single words of at least 80% certainty', tags);
-	
-	                _this2.storeTags(tags);
-	              }, function (err) {
-	                console.error(err);
-	              });
+	              _this3.useClarifaiAPI(imgBytes);
 	            };
 	          })();
 	        } catch (err) {
@@ -31082,6 +31111,7 @@
 	      }
 	    }
 	
+	    // check for file compatability before app crashes because of a PNG or GIF...
 	    /*     if(filename.value == '') {
 	                alert('Please browse for a file!');
 	                return;
@@ -31098,6 +31128,21 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
+	        _react2.default.createElement(
+	          'form',
+	          { onSubmit: this.handleURLSubmit },
+	          _react2.default.createElement('input', {
+	            type: 'submit',
+	            value: 'Use this image URL',
+	            size: '80'
+	          }),
+	          _react2.default.createElement('input', {
+	            type: 'text',
+	            id: 'imgurl',
+	            placeholder: 'Image URL',
+	            onChange: this.handleURLChange
+	          })
+	        ),
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement('input', {
@@ -31121,7 +31166,7 @@
 	          'span',
 	          { className: 'mdc-typography--body1' },
 	          'tags: ',
-	          this.state.tags.length ? this.state.tags.map(function (tag, i) {
+	          this.state.tags.length && !this.state.loading ? this.state.tags.map(function (tag, i) {
 	            return _react2.default.createElement(
 	              'div',
 	              { className: 'tags', key: i },
