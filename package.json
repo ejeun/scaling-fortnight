@@ -1,7 +1,7 @@
 {
-  "name": "__BONES_NEEDS_A_NAME__",
+  "name": "noname",
   "version": "0.0.1",
-  "description": "A happy little skeleton.",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "check-node-version --node '>= 6.7.0' && bin/setup && mocha --compilers js:babel-register app/**/*.test.js app/**/*.test.jsx db/**/*.test.js server/**/*.test.js",
@@ -15,19 +15,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/queerviolet/bones.git"
+    "url": "git+https://github.com/jeunlee/scaling-fortnight.git"
   },
-  "keywords": [
-    "react",
-    "redux",
-    "skeleton"
-  ],
-  "author": "Ashi Krishnan <me@ashi.works>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/queerviolet/bones/issues"
-  },
-  "homepage": "https://github.com/queerviolet/bones#readme",
   "dependencies": {
     "axios": "^0.15.2",
     "babel-preset-stage-2": "^6.18.0",
