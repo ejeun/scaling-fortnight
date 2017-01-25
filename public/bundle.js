@@ -30914,7 +30914,7 @@
 	
 	var _reactRedux = __webpack_require__(233);
 	
-	var _keys = __webpack_require__(300);
+	var _keys = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"APP/keys.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 	
 	var _keys2 = _interopRequireDefault(_keys);
 	
@@ -31198,20 +31198,7 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(imageAPI);
 
 /***/ },
-/* 300 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	var CLIENT_ID = 'EdibQHk16ukHW_he0jryj45Nz0mr4MmFUcPmIpdv';
-	var CLIENT_SECRET = 'sqGaiKg5uaS8_8PT6cWMnM01OSYJCsF2JespAc9D';
-	
-	exports.default = { CLIENT_ID: CLIENT_ID, CLIENT_SECRET: CLIENT_SECRET };
-
-/***/ },
+/* 300 */,
 /* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31219,7 +31206,7 @@
 	
 	var App = __webpack_require__(302);
 	
-	var _require = __webpack_require__(329),
+	var _require = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())),
 	    version = _require.version;
 	
 	module.exports = global.Clarifai = {
@@ -34508,7 +34495,7 @@
 	    checkType = _require3.checkType,
 	    clone = _require3.clone;
 	
-	var _require4 = __webpack_require__(329),
+	var _require4 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())),
 	    VERSION = _require4.version;
 	
 	module.exports = {
@@ -34683,132 +34670,7 @@
 	};
 
 /***/ },
-/* 329 */
-/***/ function(module, exports) {
-
-	module.exports = {
-		"_args": [
-			[
-				{
-					"raw": "clarifai",
-					"scope": null,
-					"escapedName": "clarifai",
-					"name": "clarifai",
-					"rawSpec": "",
-					"spec": "latest",
-					"type": "tag"
-				},
-				"/Users/jenny/GraceHopper/Senior-Phase/scaling-fortnight"
-			]
-		],
-		"_from": "clarifai@latest",
-		"_id": "clarifai@2.1.1-dev",
-		"_inCache": true,
-		"_location": "/clarifai",
-		"_nodeVersion": "4.2.1",
-		"_npmOperationalInternal": {
-			"host": "packages-12-west.internal.npmjs.com",
-			"tmp": "tmp/clarifai-2.1.1-dev.tgz_1485296381523_0.425027207005769"
-		},
-		"_npmUser": {
-			"name": "clarifai-jade",
-			"email": "jade@clarifai.com"
-		},
-		"_npmVersion": "2.14.7",
-		"_phantomChildren": {
-			"debug": "2.6.0",
-			"stream-consume": "0.1.0"
-		},
-		"_requested": {
-			"raw": "clarifai",
-			"scope": null,
-			"escapedName": "clarifai",
-			"name": "clarifai",
-			"rawSpec": "",
-			"spec": "latest",
-			"type": "tag"
-		},
-		"_requiredBy": [
-			"#USER",
-			"/"
-		],
-		"_resolved": "https://registry.npmjs.org/clarifai/-/clarifai-2.1.1-dev.tgz",
-		"_shasum": "fae9c2a6fcfc86aa7aaab6ac4ac9f114c19d3c49",
-		"_shrinkwrap": null,
-		"_spec": "clarifai",
-		"_where": "/Users/jenny/GraceHopper/Senior-Phase/scaling-fortnight",
-		"author": {
-			"name": "Clarifai Inc."
-		},
-		"bugs": {
-			"url": "https://github.com/Clarifai/clarifai-javascript/issues"
-		},
-		"dependencies": {
-			"axios": "0.11.1",
-			"es6-promise": "3.1.2",
-			"form-data": "0.2.0"
-		},
-		"description": "Official Clarifai Javascript SDK",
-		"devDependencies": {
-			"babel-eslint": "^6.1.2",
-			"babel-preset-es2015": "^6.14.0",
-			"babel-register": "^6.14.0",
-			"babelify": "^7.3.0",
-			"del": "2.0.2",
-			"envify": "3.4.0",
-			"git-branch": "0.3.0",
-			"gulp": "3.9.0",
-			"gulp-awspublish": "3.0.1",
-			"gulp-babel": "^6.1.2",
-			"gulp-browserify": "0.5.1",
-			"gulp-concat": "2.6.0",
-			"gulp-eslint": "2.0.0",
-			"gulp-if": "2.0.0",
-			"gulp-insert": "0.5.0",
-			"gulp-jasmine": "^2.2.1",
-			"gulp-notify": "2.2.0",
-			"gulp-rename": "1.2.2",
-			"gulp-replace-task": "0.11.0",
-			"gulp-uglify": "1.4.1",
-			"gulp-util": "3.0.6",
-			"jsdoc": "^3.4.1",
-			"minami": "^1.1.1",
-			"require-dir": "0.3.0",
-			"serve-static": "1.10.0"
-		},
-		"directories": {},
-		"dist": {
-			"shasum": "fae9c2a6fcfc86aa7aaab6ac4ac9f114c19d3c49",
-			"tarball": "https://registry.npmjs.org/clarifai/-/clarifai-2.1.1-dev.tgz"
-		},
-		"gitHead": "cb06dddc70bfabc22ef0dd9fd0218bb952758a2d",
-		"homepage": "https://github.com/Clarifai/clarifai-javascript#readme",
-		"license": "Apache-2.0",
-		"main": "dist/index.js",
-		"maintainers": [
-			{
-				"name": "clarifai-jade",
-				"email": "jade@clarifai.com"
-			},
-			{
-				"name": "dankantor-clarifai",
-				"email": "dankantor@clarifai.com"
-			}
-		],
-		"name": "clarifai",
-		"optionalDependencies": {},
-		"readme": "ERROR: No README data found!",
-		"repository": {
-			"type": "git",
-			"url": "git+https://github.com/Clarifai/clarifai-javascript.git"
-		},
-		"scripts": {
-			"jsdoc": "jsdoc src/* -t node_modules/minami -d docs/$npm_package_version && jsdoc src/* -t node_modules/minami -d docs/latest"
-		},
-		"version": "2.1.1-dev"
-	};
-
-/***/ },
+/* 329 */,
 /* 330 */
 /***/ function(module, exports, __webpack_require__) {
 

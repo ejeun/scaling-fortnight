@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 
 // keys are in seperate file and is added to the .gitignore so that our account secrets arenot exposed through github or deployment
-import keys from '../keys.js';
+import keys from 'APP/keys.js';
 
 // require the client
 var Clarifai = require('clarifai');
