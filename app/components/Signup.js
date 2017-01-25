@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { Col, Form, FormGroup, FormControl,
          ControlLabel, HelpBlock, Button } from 'react-bootstrap'
 
-import { addUser } from '../reducers/action-creators/user';
+import { addUser } from '../action-creators/user';
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -147,13 +147,13 @@ class Signup extends Component {
    }
 }
 
-Signup.propTypes = {
+/*Signup.propTypes = {
   dispatch: PropTypes.func.isRequired
-}
+}*/
 
 /* -----------------    CONTAINER     ------------------ */
 
 const mapState = () => ({ message: 'Sign up' });
 const mapDispatch = { signup: addUser }
 
-export default connect(mapState, mapDispatch)(Adopt);
+export default connect(mapState, mapDispatch)(Signup);

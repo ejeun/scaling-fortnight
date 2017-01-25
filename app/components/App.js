@@ -4,7 +4,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Navbar from './Navbar'
 
-export default const App = (props) => (
+export default (props) => (
   <div>
     <Navbar />
     <div>

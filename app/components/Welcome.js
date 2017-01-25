@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 /* -----------------    COMPONENT     ------------------ */
 
-class Home extends Component {
+class Welcome extends Component {
 
   constructor(props) {
     super(props)
@@ -22,4 +22,5 @@ class Home extends Component {
 
 const mapState = () => ({});
 const mapDispatch = () => ({});
-export default connect(mapState, mapDispatch)(Home);
+
+export default connect(mapState, mapDispatch)(Welcome);

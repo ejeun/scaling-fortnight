@@ -7,15 +7,16 @@ import store from './store'
 
 import Login from './components/Login'
 import Signup from './components/Signup'
-import Adopt from './components/Adopt'
+// import Adopt from './components/Adopt'
 import Home from './components/Home'
-import NotLoggedIn from './components/NotLoggedIn'
+import Welcome from './components/Welcome'
+import App from './components/App'
 
 render(
   <Provider store={store}>
     <Router history={browserHistory}>
       <Route path="/" component={App}>
-        <Route path="/notloggedin" component={NotLoggedIn} />
+        <Route path="/welcome" component={Welcome} />
         <Route path="/signup" component={Signup} />
         <Route path="/home" component={Home} />
         <Route path="/login" component={Login} />
