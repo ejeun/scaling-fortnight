@@ -1,3 +1,5 @@
+//Boilerplate to be revised.
+
 import React from 'react'
 
 export const Login = ({ login }) => (
