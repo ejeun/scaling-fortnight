@@ -1,3 +1,4 @@
+
 # Ignore all node_modules
 node_modules/*
 
@@ -10,4 +11,3 @@ public/bundle.js.map
 
 # NPM errors
 npm-debug.log
-
