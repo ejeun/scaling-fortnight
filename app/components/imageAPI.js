@@ -27,7 +27,6 @@ export class imageAPI extends React.Component {
       error: '',
     };
 
-    this.handleURLChange = this.handleURLChange.bind(this);
     this.handleURLSubmit = this.handleURLSubmit.bind(this);
     this.handleImgUpload = this.handleImgUpload.bind(this);
     this.validFile = this.validFile.bind(this);
@@ -41,13 +40,14 @@ export class imageAPI extends React.Component {
     return (
       lowercaseImageName.indexOf(".jpg") !== -1 ||
       lowercaseImageName.indexOf(".jpeg") !== -1 ||
-      lowercaseImageName.indexOf(".png") !== -1 ||
       lowercaseImageName.indexOf(".tiff") !== -1 ||
       lowercaseImageName.indexOf(".bmp") !== -1
     )
   }
 
   useClarifaiAPI(input){
+
+    console.log('input', input)
     // clarifai provides this shortcut way of sending a req with the correct headers (ie. instead of sending a post request to the 3rd party server ourselves and getting the response) you only need to provide either the image in bytes OR a url for the image
     // https://developer.clarifai.com/guide/predict
 
@@ -101,38 +101,45 @@ export class imageAPI extends React.Component {
     });
   }
 
-  handleURLChange(e){
-    this.setState({
-      holdingURL: e.target.value,
-      tags: [],
-    })
-  }
+/*  handleURLChange(e){
+
+    if (!this.validFile(e.target.value)) {
+      this.setState({
+        error: 'Supported File Types: JPEG, TIFF, BMP'
+      })
+    }
+
+    else {
+      this.setState({
+        holdingURL: e.target.value,
+        tags: [],
+      })
+    }
+
+  }*/
 
   // onClick event for providing a url
   handleURLSubmit(e){
     e.preventDefault();
 
-    this.setState({
-      imgURL: this.state.holdingURL,
-      loading: true,
-      tags: [],
-    });
-
-    if (!this.state.imgURL.length) {
+    if (this.validFile(e.target.imgurl.value)) {
       this.setState({
-        error: 'Please enter an image URL!'
-      })
-    }
-
-    else if (!this.validFile(this.state.imgURL)) {
-      this.setState({
-        error: 'Supported File Types: JPEG, PNG, TIFF, BMP'
+        imgURL: e.target.imgurl.value,
+        loading: true,
+        tags: [],
+        error: '',
       })
     }
 
     else {
-      this.useClarifaiAPI(this.state.imgURL)
+      this.setState({
+        error: 'Supported File Types: JPEG, TIFF, BMP'
+      })
+      return;
     }
+
+    this.useClarifaiAPI(e.target.imgurl.value);
+
   }
 
   // onClick event for taking or choosing a local picture file
@@ -140,6 +147,13 @@ export class imageAPI extends React.Component {
     // get the file off of the submit event
     var files = e.target.files,
         file;
+
+    if (!this.validFile(files[0].name)) {
+      this.setState({
+        error: 'Supported File Types: JPEG, TIFF, BMP'
+      })
+      return;
+    }
 
     if (files && files.length > 0) {
 
@@ -149,6 +163,7 @@ export class imageAPI extends React.Component {
         file: file,
         loading: true,
         tags: [],
+        error: '',
       })
 
       try {
@@ -201,6 +216,7 @@ export class imageAPI extends React.Component {
   render(){
     return (
       <div className="container">
+      { this.state.error && <div className="alert alert-warning">{this.state.error}</div> }
         <form onSubmit={this.handleURLSubmit}>
           <input
             type="submit"
@@ -211,7 +227,6 @@ export class imageAPI extends React.Component {
             type="text"
             id="imgurl"
             placeholder="Image URL"
-            onChange={this.handleURLChange}
           />
         </form>
 

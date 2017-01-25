@@ -30914,7 +30914,7 @@
 	
 	var _reactRedux = __webpack_require__(233);
 	
-	var _keys = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"APP/keys.js\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var _keys = __webpack_require__(300);
 	
 	var _keys2 = _interopRequireDefault(_keys);
 	
@@ -30953,7 +30953,6 @@
 	      error: ''
 	    };
 	
-	    _this.handleURLChange = _this.handleURLChange.bind(_this);
 	    _this.handleURLSubmit = _this.handleURLSubmit.bind(_this);
 	    _this.handleImgUpload = _this.handleImgUpload.bind(_this);
 	    _this.validFile = _this.validFile.bind(_this);
@@ -30969,13 +30968,14 @@
 	    key: 'validFile',
 	    value: function validFile(imageName) {
 	      var lowercaseImageName = imageName.toLowerCase();
-	      return lowercaseImageName.indexOf(".jpg") !== -1 || lowercaseImageName.indexOf(".jpeg") !== -1 || lowercaseImageName.indexOf(".png") !== -1 || lowercaseImageName.indexOf(".tiff") !== -1 || lowercaseImageName.indexOf(".bmp") !== -1;
+	      return lowercaseImageName.indexOf(".jpg") !== -1 || lowercaseImageName.indexOf(".jpeg") !== -1 || lowercaseImageName.indexOf(".tiff") !== -1 || lowercaseImageName.indexOf(".bmp") !== -1;
 	    }
 	  }, {
 	    key: 'useClarifaiAPI',
 	    value: function useClarifaiAPI(input) {
 	      var _this2 = this;
 	
+	      console.log('input', input);
 	      // clarifai provides this shortcut way of sending a req with the correct headers (ie. instead of sending a post request to the 3rd party server ourselves and getting the response) you only need to provide either the image in bytes OR a url for the image
 	      // https://developer.clarifai.com/guide/predict
 	
@@ -31016,14 +31016,23 @@
 	        loading: false
 	      });
 	    }
-	  }, {
-	    key: 'handleURLChange',
-	    value: function handleURLChange(e) {
-	      this.setState({
-	        holdingURL: e.target.value,
-	        tags: []
-	      });
-	    }
+	
+	    /*  handleURLChange(e){
+	    
+	        if (!this.validFile(e.target.value)) {
+	          this.setState({
+	            error: 'Supported File Types: JPEG, TIFF, BMP'
+	          })
+	        }
+	    
+	        else {
+	          this.setState({
+	            holdingURL: e.target.value,
+	            tags: [],
+	          })
+	        }
+	    
+	      }*/
 	
 	    // onClick event for providing a url
 	
@@ -31032,23 +31041,21 @@
 	    value: function handleURLSubmit(e) {
 	      e.preventDefault();
 	
-	      this.setState({
-	        imgURL: this.state.holdingURL,
-	        loading: true,
-	        tags: []
-	      });
-	
-	      if (!this.state.imgURL.length) {
+	      if (this.validFile(e.target.imgurl.value)) {
 	        this.setState({
-	          error: 'Please enter an image URL!'
-	        });
-	      } else if (!this.validFile(this.state.imgURL)) {
-	        this.setState({
-	          error: 'Supported File Types: JPEG, PNG, TIFF, BMP'
+	          imgURL: e.target.imgurl.value,
+	          loading: true,
+	          tags: [],
+	          error: ''
 	        });
 	      } else {
-	        this.useClarifaiAPI(this.state.imgURL);
+	        this.setState({
+	          error: 'Supported File Types: JPEG, TIFF, BMP'
+	        });
+	        return;
 	      }
+	
+	      this.useClarifaiAPI(e.target.imgurl.value);
 	    }
 	
 	    // onClick event for taking or choosing a local picture file
@@ -31062,6 +31069,13 @@
 	      var files = e.target.files,
 	          file;
 	
+	      if (!this.validFile(files[0].name)) {
+	        this.setState({
+	          error: 'Supported File Types: JPEG, TIFF, BMP'
+	        });
+	        return;
+	      }
+	
 	      if (files && files.length > 0) {
 	
 	        file = files[0];
@@ -31069,7 +31083,8 @@
 	        this.setState({
 	          file: file,
 	          loading: true,
-	          tags: []
+	          tags: [],
+	          error: ''
 	        });
 	
 	        try {
@@ -31128,6 +31143,11 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
+	        this.state.error && _react2.default.createElement(
+	          'div',
+	          { className: 'alert alert-warning' },
+	          this.state.error
+	        ),
 	        _react2.default.createElement(
 	          'form',
 	          { onSubmit: this.handleURLSubmit },
@@ -31139,8 +31159,7 @@
 	          _react2.default.createElement('input', {
 	            type: 'text',
 	            id: 'imgurl',
-	            placeholder: 'Image URL',
-	            onChange: this.handleURLChange
+	            placeholder: 'Image URL'
 	          })
 	        ),
 	        _react2.default.createElement('br', null),
@@ -31198,7 +31217,20 @@
 	exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(imageAPI);
 
 /***/ },
-/* 300 */,
+/* 300 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	var CLIENT_ID = 'T1yVBDD72ivYXvG5z9vRAOgVO6oTNe9GqrxOa_7a';
+	var CLIENT_SECRET = 'Ogrj5UnJGRttrWOxPhZ07ROEdpzvN07d11sPfiSc';
+	
+	exports.default = { CLIENT_ID: CLIENT_ID, CLIENT_SECRET: CLIENT_SECRET };
+
+/***/ },
 /* 301 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31206,7 +31238,7 @@
 	
 	var App = __webpack_require__(302);
 	
-	var _require = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())),
+	var _require = __webpack_require__(329),
 	    version = _require.version;
 	
 	module.exports = global.Clarifai = {
@@ -32558,7 +32590,7 @@
 /* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
@@ -34495,7 +34527,7 @@
 	    checkType = _require3.checkType,
 	    clone = _require3.clone;
 	
-	var _require4 = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"./../package.json\""); e.code = 'MODULE_NOT_FOUND'; throw e; }())),
+	var _require4 = __webpack_require__(329),
 	    VERSION = _require4.version;
 	
 	module.exports = {
@@ -34670,7 +34702,132 @@
 	};
 
 /***/ },
-/* 329 */,
+/* 329 */
+/***/ function(module, exports) {
+
+	module.exports = {
+		"_args": [
+			[
+				{
+					"raw": "clarifai",
+					"scope": null,
+					"escapedName": "clarifai",
+					"name": "clarifai",
+					"rawSpec": "",
+					"spec": "latest",
+					"type": "tag"
+				},
+				"/Users/jenny/GraceHopper/Senior-Phase/scaling-fortnight"
+			]
+		],
+		"_from": "clarifai@latest",
+		"_id": "clarifai@2.1.1-dev",
+		"_inCache": true,
+		"_location": "/clarifai",
+		"_nodeVersion": "4.2.1",
+		"_npmOperationalInternal": {
+			"host": "packages-12-west.internal.npmjs.com",
+			"tmp": "tmp/clarifai-2.1.1-dev.tgz_1485296381523_0.425027207005769"
+		},
+		"_npmUser": {
+			"name": "clarifai-jade",
+			"email": "jade@clarifai.com"
+		},
+		"_npmVersion": "2.14.7",
+		"_phantomChildren": {
+			"debug": "2.6.0",
+			"stream-consume": "0.1.0"
+		},
+		"_requested": {
+			"raw": "clarifai",
+			"scope": null,
+			"escapedName": "clarifai",
+			"name": "clarifai",
+			"rawSpec": "",
+			"spec": "latest",
+			"type": "tag"
+		},
+		"_requiredBy": [
+			"#USER",
+			"/"
+		],
+		"_resolved": "https://registry.npmjs.org/clarifai/-/clarifai-2.1.1-dev.tgz",
+		"_shasum": "fae9c2a6fcfc86aa7aaab6ac4ac9f114c19d3c49",
+		"_shrinkwrap": null,
+		"_spec": "clarifai",
+		"_where": "/Users/jenny/GraceHopper/Senior-Phase/scaling-fortnight",
+		"author": {
+			"name": "Clarifai Inc."
+		},
+		"bugs": {
+			"url": "https://github.com/Clarifai/clarifai-javascript/issues"
+		},
+		"dependencies": {
+			"axios": "0.11.1",
+			"es6-promise": "3.1.2",
+			"form-data": "0.2.0"
+		},
+		"description": "Official Clarifai Javascript SDK",
+		"devDependencies": {
+			"babel-eslint": "^6.1.2",
+			"babel-preset-es2015": "^6.14.0",
+			"babel-register": "^6.14.0",
+			"babelify": "^7.3.0",
+			"del": "2.0.2",
+			"envify": "3.4.0",
+			"git-branch": "0.3.0",
+			"gulp": "3.9.0",
+			"gulp-awspublish": "3.0.1",
+			"gulp-babel": "^6.1.2",
+			"gulp-browserify": "0.5.1",
+			"gulp-concat": "2.6.0",
+			"gulp-eslint": "2.0.0",
+			"gulp-if": "2.0.0",
+			"gulp-insert": "0.5.0",
+			"gulp-jasmine": "^2.2.1",
+			"gulp-notify": "2.2.0",
+			"gulp-rename": "1.2.2",
+			"gulp-replace-task": "0.11.0",
+			"gulp-uglify": "1.4.1",
+			"gulp-util": "3.0.6",
+			"jsdoc": "^3.4.1",
+			"minami": "^1.1.1",
+			"require-dir": "0.3.0",
+			"serve-static": "1.10.0"
+		},
+		"directories": {},
+		"dist": {
+			"shasum": "fae9c2a6fcfc86aa7aaab6ac4ac9f114c19d3c49",
+			"tarball": "https://registry.npmjs.org/clarifai/-/clarifai-2.1.1-dev.tgz"
+		},
+		"gitHead": "cb06dddc70bfabc22ef0dd9fd0218bb952758a2d",
+		"homepage": "https://github.com/Clarifai/clarifai-javascript#readme",
+		"license": "Apache-2.0",
+		"main": "dist/index.js",
+		"maintainers": [
+			{
+				"name": "clarifai-jade",
+				"email": "jade@clarifai.com"
+			},
+			{
+				"name": "dankantor-clarifai",
+				"email": "dankantor@clarifai.com"
+			}
+		],
+		"name": "clarifai",
+		"optionalDependencies": {},
+		"readme": "ERROR: No README data found!",
+		"repository": {
+			"type": "git",
+			"url": "git+https://github.com/Clarifai/clarifai-javascript.git"
+		},
+		"scripts": {
+			"jsdoc": "jsdoc src/* -t node_modules/minami -d docs/$npm_package_version && jsdoc src/* -t node_modules/minami -d docs/latest"
+		},
+		"version": "2.1.1-dev"
+	};
+
+/***/ },
 /* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
