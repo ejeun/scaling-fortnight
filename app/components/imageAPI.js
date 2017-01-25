@@ -17,14 +17,19 @@ var app = new Clarifai.App(
 export class imageAPI extends React.Component {
 
   constructor(props){
-    super(props)
+    super(props);
     this.state = {
       files: {},
       imgURL: '',
+      tags: [],
+      loading: false,
       error: '',
-    }
-    this.handleURLSubmit = this.handleURLSubmit.bind(this)
-    this.handleImgUpload = this.handleImgUpload.bind(this)
+    };
+
+    this.handleURLSubmit = this.handleURLSubmit.bind(this);
+    this.handleImgUpload = this.handleImgUpload.bind(this);
+    this.validFile = this.validFile.bind(this);
+    this.storeTags = this.storeTags.bind(this);
   }
 
   // check that the image provided is a supported type by clarifai
@@ -39,8 +44,17 @@ export class imageAPI extends React.Component {
     )
   }
 
+  storeTags(tags){
+    this.setState({
+      tags: tags,
+      loading: false,
+    })
+  }
+
   // onClick event for providing a url
   handleURLSubmit(e){
+/*    console.log(e.target)
+
     if(imgurl.value == '') {
         alert('Please enter an image URL!');
         return;
@@ -49,68 +63,80 @@ export class imageAPI extends React.Component {
       else if (!this.validFile(imgurl.value)) {
         alert('Supported File Types: JPEG, PNG, TIFF, BMP');
         return;
-      }
+      }*/
   }
 
   // onClick event for taking or choosing a local picture file
   handleImgUpload(e){
-    if(filename.value == '') {
-        alert('Please browse for a file!');
-        return;
-      }
-
-      else if (!this.validFile(filename.value)) {
-        alert('Supported File Types: JPEG, PNG, TIFF, BMP');
-        return;
-      }
-
-    this.setState({
-      files: e.target.files,
-    })
-
+    // get the file off of the submit event
     var files = e.target.files,
         file;
+
     if (files && files.length > 0) {
+
       file = files[0];
+
+      this.setState({
+        file: file,
+        loading: true,
+      })
 
       try {
         // Get window.URL object
         var URL = window.URL || window.webkitURL;
-        // console.log(file)
+
         this.setState({
           imgURL: URL.createObjectURL(file)
         })
 
         const fileReader = new FileReader()
         fileReader.readAsDataURL(file)
+        // you only have access to the read file inside of this callback(?)function
         fileReader.onload = () => {
           let imgBytes = fileReader.result.split(',')[1]
-          // console.log(imgBytes)
 
+          // clarifai provides this shortcut way of sending a req with the correct headers (ie. instead of sending a post request to the 3rd party server ourselves and getting the response) you only need to provide the img in bytes.
+          // https://developer.clarifai.com/guide/predict#via-image-bytes
           app.models.predict(Clarifai.GENERAL_MODEL, imgBytes)
           .then(response => {
-              const predictions = response.outputs[0].data.concepts
+            const predictions = response.outputs[0].data.concepts
 
-              let tags = [];
+            let tags = [];
 
-              predictions.forEach(function(guess){
-                if (guess.value > 0.85 &&
-                    guess.name !== 'no person'
-                  && guess.name !== 'one') {
-                  tags.push(guess.name)
-                }
-              })
-
-              if (tags.length > 7) {
-                tags.splice(7)
+            predictions.forEach(guess => {
+              if (guess.value > 0.80 &&
+                  guess.name !== 'no person'
+                && guess.name !== 'one') {
+                tags.push(guess.name)
               }
+            })
 
-              this.props.send(this.state.imgURL, tags, this.props.pet)
-            },
-            function(err) {
-              console.error(err);
-            }
-          )
+            // if (tags.length > 7) {
+            //   tags.splice(7)
+            // }
+
+            // logging in browser so you can see what's happening
+            // for clarifying purposes only
+            //  - jenny
+
+            console.log(
+              'this is the whole response that clarifai sends back ',
+              response
+            )
+            console.log(
+              'inside the response, the outputs array has data on the words associated with the input image, which i call predictions ',
+              predictions
+              )
+            console.log(
+              'i like to filter that array of objects down to just single words of at least 80% certainty',
+              tags
+            )
+
+            this.storeTags(tags);
+          },
+          err => {
+            console.error(err);
+          })
         }
       }
       catch (err) {
@@ -126,25 +152,37 @@ export class imageAPI extends React.Component {
         }
         catch (err) {
           // Display error message
-          this.setState({
-            error: 'Neither createObjectURL or FileReader are supported',
-          })
+
         }
       }
     }
   }
 
+/*     if(filename.value == '') {
+            alert('Please browse for a file!');
+            return;
+          }
+
+          else if (!this.validFile(filename.value)) {
+            alert('Supported File Types: JPEG, PNG, TIFF, BMP');
+            return;
+          }*/
 
   render(){
     return (
       <div className="container">
-        <button onClick={this.handleURLSubmit}>Predict a URL!</button>
-        <input type="text" id="imgurl" placeholder="Image URL" size="80"/>
+
+        {/*<button type="submit" onClick={this.handleURLSubmit}>Predict a URL!</button>
+        <input type="text" id="imgurl" placeholder="Image URL" size="80"/>*/}
 
         <br/><br/>
 
-        <button onClick={this.handleImgUpload}>Upload your own image!</button>
-        <input type="file" id="imgupload" placeholder="Filename" accept="image/*" size="80"/>
+        <input
+            type="file"
+            id="take-picture"
+            accept="image/*"
+            onChange={this.handleImgUpload}
+          ></input>
 
         <div>
           <img
@@ -156,10 +194,14 @@ export class imageAPI extends React.Component {
             ></img>
         </div>
 
-        <span className="mdc-typography--body1"> {/*this.props.newMail.tags && this.props.newMail.tags.map(function(tag, i){
-          return (
-            <div className="tags" key={i}>{tag}</div>)
-        })*/}</span>
+        <span className="mdc-typography--body1">
+          tags: {this.state.tags.length ?
+          this.state.tags.map(function(tag, i){
+            return (
+              <div className="tags" key={i}>{tag}</div>
+            )
+          }) : <div className="tags">{this.state.loading && 'processing your image...'}</div>
+        }</span>
 
       </div>
     )

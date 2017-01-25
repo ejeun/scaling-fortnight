@@ -30947,10 +30947,15 @@
 	    _this.state = {
 	      files: {},
 	      imgURL: '',
+	      tags: [],
+	      loading: false,
 	      error: ''
 	    };
+	
 	    _this.handleURLSubmit = _this.handleURLSubmit.bind(_this);
 	    _this.handleImgUpload = _this.handleImgUpload.bind(_this);
+	    _this.validFile = _this.validFile.bind(_this);
+	    _this.storeTags = _this.storeTags.bind(_this);
 	    return _this;
 	  }
 	
@@ -30963,20 +30968,32 @@
 	      var lowercaseImageName = imageName.toLowerCase();
 	      return lowercaseImageName.indexOf(".jpg") != -1 || lowercaseImageName.indexOf(".jpeg") != -1 || lowercaseImageName.indexOf(".png") != -1 || lowercaseImageName.indexOf(".tiff") != -1 || lowercaseImageName.indexOf(".bmp") != -1;
 	    }
+	  }, {
+	    key: 'storeTags',
+	    value: function storeTags(tags) {
+	      this.setState({
+	        tags: tags,
+	        loading: false
+	      });
+	    }
 	
 	    // onClick event for providing a url
 	
 	  }, {
 	    key: 'handleURLSubmit',
-	    value: function handleURLSubmit(e) {
-	      if (imgurl.value == '') {
-	        alert('Please enter an image URL!');
-	        return;
-	      } else if (!this.validFile(imgurl.value)) {
-	        alert('Supported File Types: JPEG, PNG, TIFF, BMP');
-	        return;
-	      }
-	    }
+	    value: function handleURLSubmit(e) {}
+	    /*    console.log(e.target)
+	    
+	        if(imgurl.value == '') {
+	            alert('Please enter an image URL!');
+	            return;
+	          }
+	    
+	          else if (!this.validFile(imgurl.value)) {
+	            alert('Supported File Types: JPEG, PNG, TIFF, BMP');
+	            return;
+	          }*/
+	
 	
 	    // onClick event for taking or choosing a local picture file
 	
@@ -30985,22 +31002,18 @@
 	    value: function handleImgUpload(e) {
 	      var _this2 = this;
 	
-	      if (filename.value == '') {
-	        alert('Please browse for a file!');
-	        return;
-	      } else if (!this.validFile(filename.value)) {
-	        alert('Supported File Types: JPEG, PNG, TIFF, BMP');
-	        return;
-	      }
-	
-	      this.setState({
-	        files: e.target.files
-	      });
-	
+	      // get the file off of the submit event
 	      var files = e.target.files,
 	          file;
+	
 	      if (files && files.length > 0) {
+	
 	        file = files[0];
+	
+	        this.setState({
+	          file: file,
+	          loading: true
+	        });
 	
 	        try {
 	          var URL;
@@ -31008,7 +31021,7 @@
 	          (function () {
 	            // Get window.URL object
 	            URL = window.URL || window.webkitURL;
-	            // console.log(file)
+	
 	
 	            _this2.setState({
 	              imgURL: URL.createObjectURL(file)
@@ -31016,26 +31029,36 @@
 	
 	            var fileReader = new FileReader();
 	            fileReader.readAsDataURL(file);
+	            // you only have access to the read file inside of this callback(?)function
 	            fileReader.onload = function () {
 	              var imgBytes = fileReader.result.split(',')[1];
-	              // console.log(imgBytes)
 	
+	              // clarifai provides this shortcut way of sending a req with the correct headers (ie. instead of sending a post request to the 3rd party server ourselves and getting the response) you only need to provide the img in bytes.
+	              // https://developer.clarifai.com/guide/predict#via-image-bytes
 	              app.models.predict(Clarifai.GENERAL_MODEL, imgBytes).then(function (response) {
 	                var predictions = response.outputs[0].data.concepts;
 	
 	                var tags = [];
 	
 	                predictions.forEach(function (guess) {
-	                  if (guess.value > 0.85 && guess.name !== 'no person' && guess.name !== 'one') {
+	                  if (guess.value > 0.80 && guess.name !== 'no person' && guess.name !== 'one') {
 	                    tags.push(guess.name);
 	                  }
 	                });
 	
-	                if (tags.length > 7) {
-	                  tags.splice(7);
-	                }
+	                // if (tags.length > 7) {
+	                //   tags.splice(7)
+	                // }
 	
-	                _this2.props.send(_this2.state.imgURL, tags, _this2.props.pet);
+	                // logging in browser so you can see what's happening
+	                // for clarifying purposes only
+	                //  - jenny
+	
+	                console.log('this is the whole response that clarifai sends back ', response);
+	                console.log('inside the response, the outputs array has data on the words associated with the input image, which i call predictions ', predictions);
+	                console.log('i like to filter that array of objects down to just single words of at least 80% certainty', tags);
+	
+	                _this2.storeTags(tags);
 	              }, function (err) {
 	                console.error(err);
 	              });
@@ -31053,33 +31076,36 @@
 	            fileReader.readAsDataURL(file);
 	          } catch (err) {
 	            // Display error message
-	            this.setState({
-	              error: 'Neither createObjectURL or FileReader are supported'
-	            });
+	
 	          }
 	        }
 	      }
 	    }
+	
+	    /*     if(filename.value == '') {
+	                alert('Please browse for a file!');
+	                return;
+	              }
+	    
+	              else if (!this.validFile(filename.value)) {
+	                alert('Supported File Types: JPEG, PNG, TIFF, BMP');
+	                return;
+	              }*/
+	
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.handleURLSubmit },
-	          'Predict a URL!'
-	        ),
-	        _react2.default.createElement('input', { type: 'text', id: 'imgurl', placeholder: 'Image URL', size: '80' }),
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement('br', null),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.handleImgUpload },
-	          'Upload your own image!'
-	        ),
-	        _react2.default.createElement('input', { type: 'file', id: 'imgupload', placeholder: 'Filename', accept: 'image/*', size: '80' }),
+	        _react2.default.createElement('input', {
+	          type: 'file',
+	          id: 'take-picture',
+	          accept: 'image/*',
+	          onChange: this.handleImgUpload
+	        }),
 	        _react2.default.createElement(
 	          'div',
 	          null,
@@ -31094,7 +31120,18 @@
 	        _react2.default.createElement(
 	          'span',
 	          { className: 'mdc-typography--body1' },
-	          ' '
+	          'tags: ',
+	          this.state.tags.length ? this.state.tags.map(function (tag, i) {
+	            return _react2.default.createElement(
+	              'div',
+	              { className: 'tags', key: i },
+	              tag
+	            );
+	          }) : _react2.default.createElement(
+	            'div',
+	            { className: 'tags' },
+	            this.state.loading && 'processing your image...'
+	          )
 	        )
 	      );
 	    }
@@ -32489,7 +32526,7 @@
 /* 321 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var require;var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
+	var __WEBPACK_AMD_DEFINE_RESULT__;var require;/* WEBPACK VAR INJECTION */(function(process, global, module) {/*!
 	 * @overview es6-promise - a tiny implementation of Promises/A+.
 	 * @copyright Copyright (c) 2014 Yehuda Katz, Tom Dale, Stefan Penner and contributors (Conversion to ES6 API by Jake Archibald)
 	 * @license   Licensed under MIT license
