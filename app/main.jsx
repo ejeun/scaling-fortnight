@@ -11,6 +11,7 @@ import Signup from './components/Signup'
 import Home from './components/Home'
 import Welcome from './components/Welcome'
 import App from './components/App'
+import Chat from './components/Chat'
 
 render(
   <Provider store={store}>
