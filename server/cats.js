@@ -15,7 +15,7 @@ module.exports = require('express').Router()
   .post('/', (req, res, next) => {
     console.log('routes been hit with ', req.body)
     Cat.create(req.body)
-    .then(newCat => res.json(newCat))
+    .then(newCat => res.status(201).json(newCat))
     .catch(next)
   })
 
