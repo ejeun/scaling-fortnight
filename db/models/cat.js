@@ -21,3 +21,5 @@ const Cat = db.define('cats', {
   markov: Sequelize.TEXT
 
 });
+
+module.exports = Cat;
