@@ -1,0 +1,25 @@
+.alert {
+  padding: 0.75rem 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.alert-warning {
+  background-color: #fcf8e3;
+  color: #8a6d3b;
+}
+
+.chat {
+  width: 45%;
+}
+
+.chat img {
+  width: 50%;
+}
+
+.cat {
+  width: 45%;
+}
+
+.cat img {
+width: 50%;
+}
