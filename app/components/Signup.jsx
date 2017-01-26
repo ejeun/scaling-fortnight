@@ -1,15 +1,27 @@
 //I intend this to be boilerplate that we revise for our project. It's copied from Grace Shopper.
 
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Col, Form, FormGroup, FormControl,
-         ControlLabel, HelpBlock, Button } from 'react-bootstrap'
+
+import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import {
+  Step,
+  Stepper,
+  StepLabel,
+} from 'material-ui/Stepper';
+import ArrowForwardIcon from 'material-ui/svg-icons/navigation/arrow-forward';
+import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
+import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
+import Paper from 'material-ui/Paper';
+import TextField from 'material-ui/TextField';
+import FontIcon from 'material-ui/FontIcon';
 
 import { addUser } from '../action-creators/user';
 
 /* -----------------    COMPONENT     ------------------ */
 
-class Signup extends Component {
+class Signup extends React.Component {
 
   constructor(props) {
     super(props)
