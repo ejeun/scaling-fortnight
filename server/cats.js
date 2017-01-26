@@ -6,14 +6,13 @@ const Cat = db.model('cats');
 module.exports = require('express').Router()
 
   .get('/', (req, res, next) => {
-    console.log('ur looking at all the cuties')
     Cat.findAll()
     .then(cats => res.json(cats))
     .catch(next)
   })
 
   .post('/', (req, res, next) => {
-    console.log('routes been hit with ', req.body)
+    console.log('cat routes been hit with ', req.body)
     Cat.create(req.body)
     .then(newCat => res.status(201).json(newCat))
     .catch(next)
@@ -32,7 +31,8 @@ module.exports = require('express').Router()
       returning: true
     })
     .then(updatedData => {
-      // in this case, updated is an array. the first element is the number of rows changed, and the second element is an array of the actual rows with the upadted info. therefore the below [1][0]
+      // in this case, updated is an array. the first element is the number of rows changed, 
+      // and the second element is an array of the actual rows with the upadted info. therefore the below [1][0]
       let updatedCat = updatedData[1][0];
       res.json(updatedCat)
     .catch(next)
