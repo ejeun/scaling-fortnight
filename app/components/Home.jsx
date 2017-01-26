@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Cat from './Cat';
 import ChatBox from './ChatBox';
+import Inf from './Inf';
 
 
 /* -----------------    COMPONENT     ------------------ */
@@ -18,7 +19,7 @@ class Home extends Component {
     return(
       <div className="home">
         <div className="chat">
-          <ChatBox/>
+          <Inf/>
         </div>
 
         <div className="cat">

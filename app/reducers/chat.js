@@ -1,15 +1,32 @@
-import axios from 'axios'
+import axios from 'axios';
 
-const reducer = (state=null, action) => {
-  return state
+const initialState = {
+  messages: []
 }
 
-export const saveMarkov = (markov) => {
-  return dispatch =>
-    axios.post('/api/markov',
-      markov)
-      .then(() => {})
-      .catch(() => {})
+const reducer = (state=initialState, action) => {
+  const newState = Object.assign({}, state);
+  switch(action.type) {
+    case ADD_MESSAGE:
+      newState.messages.push(action.message)
+      break;
+    default:
+      return newState;
+  }
+  return newState;
 }
 
-export default reducer
+const ADD_MESSAGE = 'ADD_MESSAGE';
+export const addMessage = message => ({
+  type: ADD_MESSAGE, message
+})
+
+// export const saveMarkov = (markov) => {
+//   return dispatch =>
+//     axios.post('/api/markov',
+//       markov)
+//       .then(() => {})
+//       .catch(() => {})
+// }
+
+export default reducer;
