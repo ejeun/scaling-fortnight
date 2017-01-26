@@ -17,6 +17,17 @@
     "type": "git",
     "url": "git+https://github.com/jeunlee/scaling-fortnight.git"
   },
+  "keywords": [
+    "react",
+    "redux",
+    "skeleton"
+  ],
+  "author": "Ashi Krishnan <me@ashi.works>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/queerviolet/bones/issues"
+  },
+  "homepage": "https://github.com/queerviolet/bones#readme",
   "dependencies": {
     "axios": "^0.15.2",
     "babel-preset-stage-2": "^6.18.0",

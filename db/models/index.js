@@ -10,3 +10,4 @@ const Cat = require('./cat');
 Cat.belongsTo(User, {as: 'pet'});
 
 module.exports = {User, Cat};
+

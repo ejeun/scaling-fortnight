@@ -1,5 +1,5 @@
-/*import React from 'react'
-import chai, {expect} from 'chai'
+import React from 'react'
+import chai, {expect} from 'chai'                                                   
 chai.use(require('chai-enzyme')())
 import {shallow} from 'enzyme'
 import {spy} from 'sinon'
@@ -12,7 +12,7 @@ describe('<WhoAmI/>', () => {
   const user = {
     name: 'Dr. Bones',
   }
-  const logout = spy()
+  const logout = spy() 
   let root
   beforeEach('render the root', () =>
     root = shallow(<WhoAmI user={user} logout={logout}/>)
@@ -47,4 +47,5 @@ describe("<WhoAmI/>'s connection", () => {
   it('gets prop.user from state.auth', () => {
     expect(root.find(WhoAmI)).to.have.prop('user').eql(state.auth)
   })
-})*/
+})
+
