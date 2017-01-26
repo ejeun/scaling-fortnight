@@ -44,6 +44,7 @@ const styles = {
 	},
 	heading1: {
 		fontSize: '4em',
+		marginTop: '20%',
 	},
 	heading2: {
 	},
