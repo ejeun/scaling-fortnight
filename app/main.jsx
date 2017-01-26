@@ -23,17 +23,19 @@ injectTapEventPlugin();
 
 
 render(
-  <Provider store={store}>
-    <Router history={browserHistory}>
-      <Route path="/" component={App}>
-        <Route path="/welcome" component={Welcome} />
-        <Route path="/signup" component={Signup} />
-        <Route path="/home" component={Home} />
-        <Route path="/login" component={Login} />
-        <Route path="/chat" component={Chat} />
-        <Route path="/images" component={ImageAPI} />
-      </Route>
-    </Router>
-  </Provider>,
+  <MuiThemeProvider>
+    <Provider store={store}>
+      <Router history={browserHistory}>
+        <Route path="/" component={App}>
+          <Route path="/welcome" component={Welcome} />
+          <Route path="/signup" component={Signup} />
+          <Route path="/home" component={Home} />
+          <Route path="/login" component={Login} />
+          <Route path="/chat" component={Chat} />
+          <Route path="/images" component={ImageAPI} />
+        </Route>
+      </Router>
+    </Provider>
+  </MuiThemeProvider>,
   document.getElementById('app')
 )
