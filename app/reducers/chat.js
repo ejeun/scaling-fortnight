@@ -5,7 +5,6 @@ const reducer = (state=null, action) => {
 }
 
 export const saveMarkov = (markov) => {
-  console.log("please work")
   return dispatch =>
     axios.post('/api/markov',
       markov)
