@@ -36,7 +36,7 @@ describe("<WhoAmI/>'s connection", () => {
   const state = {
     auth: {name: 'Dr. Bones'}
   }
-  
+
   let root, store, dispatch
   beforeEach('create store and render the root', () => {
     store = createStore(state => state, state)
@@ -48,3 +48,4 @@ describe("<WhoAmI/>'s connection", () => {
     expect(root.find(WhoAmI)).to.have.prop('user').eql(state.auth)
   })
 })
+

@@ -49,8 +49,8 @@ describe('<Login />', () => {
     it('calls props.login with credentials', () => {      
       expect(login).to.have.been.calledWith(
         submitEvent.target.username.value,
-        submitEvent.target.password.value,
-      )
+        submitEvent.target.password.value
+        )
     })
 
     it('calls preventDefault', () => {
@@ -58,3 +58,4 @@ describe('<Login />', () => {
     })
   })
 })
+
