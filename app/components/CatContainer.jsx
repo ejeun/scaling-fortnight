@@ -7,7 +7,7 @@ import ChatBox from './ChatBox';
 
 /* -----------------    COMPONENT     ------------------ */
 
-class Home extends Component {
+class CatContainer extends Component {
 
   constructor(props) {
     super(props)
@@ -34,4 +34,4 @@ class Home extends Component {
 
 const mapState = () => ({});
 const mapDispatch = () => ({});
-export default connect(mapState, mapDispatch)(Home);
+export default connect(mapState, mapDispatch)(CatContainer);
