@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import Markov from '../../server/markov/markov';
 import alice from '../../server/markov/books/alice';
+// import saveMarkov from '../reducers/chat';
+import axios from 'axios'
 // import lookingglass from '../../server/markov/books/lookingglass';
 
 // eventually this has to connect to have access to user, etc
@@ -11,6 +13,11 @@ export default class Chat extends Component {
     const markov = new Markov(2);
     markov.add(alice);
 
+    // backend stuff isn't working
+    // axios.post('/api/markov',
+    //   markov)
+    //   .then(() => {})
+    //   .catch(() => {})
     this.state = {
       markov: markov,
       messages: []
