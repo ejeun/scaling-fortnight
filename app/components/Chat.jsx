@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Markov from '../../server/markov/markov';
 import alice from '../../server/markov/books/alice';
-import addMessage from '../reducers/chat';
+import {addMessage} from '../reducers/chat';
 import axios from 'axios';
-// import lookingglass from '../../server/markov/books/lookingglass';
+import TextField from 'material-ui/TextField';
+import RaisedButton from 'material-ui/RaisedButton';
 
+// import lookingglass from '../../server/markov/books/lookingglass';
 
 // eventually this has to connect to have access to user, etc
 class Chat extends Component {
@@ -17,7 +19,6 @@ class Chat extends Component {
 
     this.state = {
       markov: markov,
-      messages: []
     }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -25,25 +26,18 @@ class Chat extends Component {
   handleSubmit(e) {
     e.preventDefault();
     // add your message to the key/value table
-    const yourMessage = e.target.message.value;
-    addMessage(yourMessage);
+    const yourMessage = ["you", e.target.message.value];
+
     this.state.markov.add(yourMessage);
     // messages1 and messages2 is used to delay the cat's response
-    const messages1 = [
-      ...this.state.messages,
-      `You: ${yourMessage}`  // add your message to messages
-      ];
-    const catMessage = this.state.markov.generate();
-    const messages2 = [
-      ...messages1,
-      `Cat: ${catMessage}`  // generate a sentence and add it to messages
-      ];
+
+    const catMessage = ["cat", this.state.markov.generate()];
     // immediately update state with your message and clear the text input
-    this.setState({messages: messages1});
+    this.props.addMessage(yourMessage);
     e.target.message.value = '';
 
     // wait 2 seconds and update state with the cat's message
-    setTimeout(() => this.setState({messages: messages2}), 2000);
+    setTimeout(() => this.props.addMessage(catMessage), 2000);
   }
 
 
@@ -51,27 +45,21 @@ class Chat extends Component {
     return (
       <div>
         <form onSubmit={this.handleSubmit}>
-          <input
-            type="text"
+          <TextField
             id="message"
-            placeholder="Enter message here"
+            hintText="Enter message here"
           />
-          <input
+          <RaisedButton
+            id="tell-cat"
             type="submit"
-            value="Send to Cat"
+            label="Tell Cat"
+            primary={true}
+            style={{margin:"10px"}}
           />
         </form>
-        {this.state.messages.length
-          ? <div>
-              {this.state.messages.map((message, i) =>
-                (<div key={i} style= {{color: /You/.test(message) ? "darkblue" : "darkred"}}>{message}</div>)
-                )}
-            </div>
-          : null
-        }
       </div>
     )
   }
 }
 
-export default connect() (Chat);
+export default Chat;

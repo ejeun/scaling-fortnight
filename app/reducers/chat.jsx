@@ -8,7 +8,7 @@ const reducer = (state=initialState, action) => {
   const newState = Object.assign({}, state);
   switch(action.type) {
     case ADD_MESSAGE:
-      newState.messages.push(action.message)
+      newState.messages = [...newState.messages, action.message];
       break;
     default:
       return newState;

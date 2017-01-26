@@ -4,35 +4,42 @@ import { connect } from 'react-redux';
 import Cat from './Cat';
 import ChatBox from './ChatBox';
 import Inf from './Inf';
-
-
-/* -----------------    COMPONENT     ------------------ */
+import {addMessage} from '../reducers/chat';
 
 class Home extends Component {
-
   constructor(props) {
     super(props)
   }
-
-
   render() {
+    console.log(this.props)
     return(
       <div className="home">
         <div className="chat">
-          <Inf/>
+          <ChatBox
+            messages={this.props.messages}
+            addMessage={this.props.dispatchAddMessage}
+          />
         </div>
-
         <div className="cat">
           <Cat/>
         </div>
-
-      </div>)
-   }
+      </div>
+    )
+  }
 }
 
+const mapStateToProps = state => {
+  return {
+    messages: state.chat.messages
+  };
+};
 
-/* -----------------    CONTAINER     ------------------ */
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchAddMessage (message) {
+      return dispatch(addMessage(message));
+    }
+  };
+};
 
-const mapState = () => ({});
-const mapDispatch = () => ({});
-export default connect(mapState, mapDispatch)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
