@@ -12,6 +12,7 @@ import Signup from './components/Signup'
 import Home from './components/Home'
 import Welcome from './components/Welcome'
 import App from './components/App'
+import Chat from './components/Chat'
 
 
 render(
@@ -22,6 +23,7 @@ render(
         <Route path="/signup" component={Signup} />
         <Route path="/home" component={Home} />
         <Route path="/login" component={Login} />
+        <Route path="/chat" component={Chat} />
         <Route path="/images" component={ImageAPI} />
       </Route>
     </Router>
