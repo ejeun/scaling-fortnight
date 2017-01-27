@@ -16,6 +16,15 @@ import Signature from './stepper/Signature';
 // import { addUser } from '../action-creators/user';
 
 /* -----------------    COMPONENT     ------------------ */
+// SIGNUP is a smart component that renders one of three children components
+// depending on the position of the stepper
+
+// those dumb components are in the stepper folder
+
+// props are passed to them...
+
+// TO DO!! : form validation and sign up submission
+// should actually create a user account with a new pet
 
 class Signup extends React.Component {
 
