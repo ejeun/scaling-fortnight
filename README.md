@@ -2,7 +2,9 @@
 - chat capability with markov chain we develop, incorporates user input as part of its corpus
 - user can send images to cat that will be recognized, with uploading integrated into the chat dialog
 - you adopt a cat with built-in preferences when you  sign up and your user account saves info
-- relationship score: points for matching cat's likes, cat leaves if the score is low...
+- we will have 3-5 cats with different markov chain (different manners of speech)
+- relationship score: points for sending photos that cat's likes, cat leaves if the score is low...
+- cat has a secret dream in life and the goal is to guess the dream. The cat's likes/dislikes are all related hints for the dream.
 - clean, mobile friendly ui
 - visuals / cat graphic has some animation
 
