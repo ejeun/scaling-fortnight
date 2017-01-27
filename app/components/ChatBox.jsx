@@ -31,34 +31,32 @@ class ChatBox extends Component {
   render() {
     const catAv = "https://cdn2.iconfinder.com/data/icons/pet-2/100/06-512.png";
     const youAv = "http://www.freeiconspng.com/uploads/face-head-woman-female-icon-2.png";
-
     return (
-
-  <div style={{marginLeft: "15%", marginRight: "15%"}}>
-    <GridList
-      style={{
-        maxHeight: window.innerHeight*.6,
-        overflowY: 'auto'
-      }}
-      cols={1}
-      cellHeight="auto"
-      >
-      {this.props.messages.map((message, index) => {return (
-        <div key={index} style={{textAlign: (message[0] === 'cat') ? "left" : "right"}}>
-          <Paper id="statement-bubble" zDepth={1} style={{display: "inline-block"}} className={`statement-by-${message[0]}`}>
-            <div>
-              <Avatar src= {(message[0] === 'cat') ? catAv : youAv} style={{float: (message[0] === 'cat') ? "left" : "right", margin: "5px"}} />
-                {(!message[2])
-                  ? <p style={{float: (message[0] !== 'cat') ? "left" : "right", marginLeft: "5px", marginRight: "5px"}}> {message[1]} </p>
-                  : <img src={message[1]} style={{float: (message[0] !== 'cat') ? "left" : "right", margin: "10px"}}/>
-                }
+      <div style={{marginLeft: "15%", marginRight: "15%"}}>
+        <GridList
+          style={{
+            maxHeight: window.innerHeight*.6,
+            overflowY: 'auto'
+          }}
+          cols={1}
+          cellHeight="auto"
+          >
+          {this.props.messages.map((message, index) => {return (
+            <div key={index} style={{textAlign: (message[0] === 'cat') ? "left" : "right"}}>
+              <Paper id="statement-bubble" zDepth={1} style={{display: "inline-block"}} className={`statement-by-${message[0]}`}>
+                <div>
+                  <Avatar src= {(message[0] === 'cat') ? catAv : youAv} style={{float: (message[0] === 'cat') ? "left" : "right", margin: "5px"}} />
+                    {(!message[2])
+                      ? <p style={{float: (message[0] !== 'cat') ? "left" : "right", marginLeft: "5px", marginRight: "5px"}}> {message[1]} </p>
+                      : <img src={message[1]} style={{float: (message[0] !== 'cat') ? "left" : "right", margin: "10px"}}/>
+                    }
+                </div>
+              </Paper>
             </div>
-          </Paper>
-        </div>
-      )})}
-    </GridList>
-    <Chat addMessage={this.props.addMessage}/>
-  </div>
+          )})}
+        </GridList>
+        <Chat addMessage={this.props.addMessage}/>
+      </div>
 )}}
 
 export default connect()(ChatBox);
