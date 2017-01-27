@@ -49,3 +49,18 @@ width: 70%;
 .statement-by-you {
   background-color: lightcyan !important;
 }
+
+.splash {
+  height: 100vh;
+  display: flex;
+
+  background-image: url('/tabbycat.png');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
