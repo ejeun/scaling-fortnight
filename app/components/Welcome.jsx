@@ -1,23 +1,33 @@
-
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
+
+import ChatBox from './ChatBox';
 // import NavBar from './Navbar';
 
 
 /* -----------------    COMPONENT     ------------------ */
 
 export const Welcome = () => {
-	return(
-		<div>
-			<div style={ styles.textDiv }>
-				<h1 style={ styles.heading1 }>Electro Cat</h1>
-				<h2 style={ styles.heading2 }>Talk to a cat!</h2>
-				<Link to={'/signup'} style={ styles.adopt }>Adopt Now</Link>
-			</div>
-			<div style={ styles.catDiv }>
-				<img src="/images/cat_grab.jpg" style={ styles.catImg } />
-			</div>
+	return (
+		<div className='splash'>
+			{/*<div className='chat'>
+          <ChatBox
+            messages={[]}
+            addMessage={() => {}}
+          />
+       </div>*/}
+
+					<div style={ styles.txt }>
+						<h1 style={ styles.heading1 }>Electro Cat</h1>
+					</div>
+
+					<div style={ styles.txt }>
+						<h2 style={ styles.heading2 }>talk to a cat with a dream...! <br/><br/>
+							<Link to={'/signup'} style={ styles.adopt }>ADOPT NOW</Link>
+						</h2>
+					</div>
+
 		</div>
 	)
 
@@ -32,34 +42,20 @@ const mapDispatch = () => ({});
 export default connect(mapState, mapDispatch)(Welcome);
 
 
-
 /* -----------------    STYLES     ------------------ */
 
 const styles = {
-	textDiv: {
-		fontFamily: 'Roboto', 
-		float: 'left',
-		width: '45%',
-    	marginLeft: '8%',
+	txt: {
+		fontFamily: 'Roboto',
+		color: 'white',
+		marginLeft: '10%',
 	},
 	heading1: {
 		fontSize: '4em',
 		marginTop: '20%',
 	},
-	heading2: {
-	},
+
 	adopt: {
 		textDecoration: 'none',
-		fontSize: '2em',
-	},
-	catDiv: {
-		float: 'left',
-		marginLeft: '5%',
-		height: '100%',
-		width: '40%',
-	},
-	catImg: {
-		height: '100%',
-		width: '100%',
 	},
 }
