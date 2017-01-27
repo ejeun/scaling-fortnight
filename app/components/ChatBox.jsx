@@ -35,7 +35,7 @@ class ChatBox extends Component {
   <div style={{marginLeft: "15%", marginRight: "15%"}}>
     <GridList
       style={{
-        height: window.innerHeight*.6,
+        maxHeight: window.innerHeight*.6,
         overflowY: 'auto'
       }}
       cols={1}
