@@ -1,19 +1,31 @@
 import axios from 'axios'
 
+const initialState = {
+  currentUser: {},
+}
+
 /* ------------       REDUCER     ------------------ */
-/*
-const reducer = (state=null, action) => {
+
+const reducer = (state = initialState, action) => {
+
+  const newState = Object.assign({}, state);
+
   switch(action.type) {
-  case AUTHENTICATED:
-    return action.user
+
+  case currentUser:
+    newState.currentUser = action.user;
+    break;
+
   }
-  return state
-}*/
+
+  return newState
+}
 
 /* -----------------    ACTIONS     ------------------ */
 
-export const INITIALIZE_USERS = 'INITIALIZE_USERS'
-export const CREATE_USER = 'CREATE_USER'
+const INITIALIZE_USERS = 'INITIALIZE_USERS';
+const CREATE_USER = 'CREATE_USER';
+const SELECT_USER = 'SELECT_USER';
 
 
 /* ------------     ACTION CREATORS     ------------------ */
@@ -26,6 +38,11 @@ export const initUser = users => ({
 export const createUser = user => ({
   type: CREATE_USER,
   loading: true,
+  user
+})
+
+export const selectUser = user => ({
+  type: SELECT_USER,
   user
 })
 
@@ -46,3 +63,7 @@ export const addUser = newUser => {
     .catch(err => console.error(`Creating user: ${newUser} unsuccesful`, err))
   }
 }
+
+/* ------------------  default export     ------------------ */
+
+export default reducer;
