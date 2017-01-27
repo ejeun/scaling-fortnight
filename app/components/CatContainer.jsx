@@ -33,7 +33,19 @@ class CatContainer extends Component {
 
 /* -----------------    CONTAINER     ------------------ */
 
-const mapState = () => ({});
-const mapDispatch = () => ({});
-export default connect(mapState, mapDispatch)(CatContainer);
+const mapStateToProps = state => {
+  return {
+    messages: state.chat.messages
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatchAddMessage (message) {
+      return dispatch(addMessage(message));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CatContainer);
 
