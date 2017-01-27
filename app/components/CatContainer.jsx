@@ -6,7 +6,9 @@ import ChatBox from './ChatBox';
 import Inf from './Inf';
 import {addMessage} from '../reducers/chat';
 
-class Home extends Component {
+
+class CatContainer extends Component {
+
   constructor(props) {
     super(props)
   }
@@ -28,18 +30,10 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    messages: state.chat.messages
-  };
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    dispatchAddMessage (message) {
-      return dispatch(addMessage(message));
-    }
-  };
-};
+/* -----------------    CONTAINER     ------------------ */
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+const mapState = () => ({});
+const mapDispatch = () => ({});
+export default connect(mapState, mapDispatch)(CatContainer);
+
