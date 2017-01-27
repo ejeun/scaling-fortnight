@@ -35,11 +35,9 @@ width: 70%;
 }
 
 #statement-bubble {
-
-  margin: 5%;
-   text-align: center;
-
-   border-radius: 20px !important;
+  margin: 1%;
+  text-align: center;
+  border-radius: 20px !important;
 }
 
 .statement-by-cat {

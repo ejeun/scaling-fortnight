@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 
+import {GridList, GridTile} from 'material-ui/GridList';
 import {List, ListItem} from 'material-ui/List';
 import Divider from 'material-ui/Divider';
 import Subheader from 'material-ui/Subheader';
@@ -31,23 +32,32 @@ class ChatBox extends Component {
 
     return (
 
-  <div>
-    <List style={{  maxHeight: "85%"}}>
+  <div style={{marginLeft: "15%", marginRight: "15%"}}>
+    <GridList
+      style={{
+        height: window.innerHeight*.6,
+        overflowY: 'auto'
+      }}
+      cols={1}
+      cellHeight="auto"
+      >
       {this.props.messages.map((message, index) => {return (
-        <Paper id="statement-bubble" key={index} zDepth={1} className={`statement-by-${message[0]}`}>
-          <ListItem
-            leftAvatar={message[0] === 'cat' ? <Avatar src="https://cdn2.iconfinder.com/data/icons/pet-2/100/06-512.png" /> : null}
-            rightAvatar={message[0] === 'you' ? <Avatar src="http://www.freeiconspng.com/uploads/face-head-woman-female-icon-2.png" /> : null}
-            secondaryText={
-               (!message[2])
-               ? <p> {message[1]} </p>
-               : <img src={message[1]}/>
-            }
-            secondaryTextLines={2}
-          />
-        </Paper>
+        <div key={index} style={{textAlign: (message[0] === 'cat') ? "left" : "right"}}>
+          <Paper id="statement-bubble" zDepth={1} style={{display: "inline-block"}} className={`statement-by-${message[0]}`}>
+            <ListItem
+              leftAvatar={message[0] === 'cat' ? <Avatar src="https://cdn2.iconfinder.com/data/icons/pet-2/100/06-512.png" /> : null}
+              rightAvatar={message[0] === 'you' ? <Avatar src="http://www.freeiconspng.com/uploads/face-head-woman-female-icon-2.png" /> : null}
+              secondaryText={
+                (!message[2])
+                ? <p> {message[1]} </p>
+                : <img src={message[1]}/>
+              }
+              secondaryTextLines={2}
+            />
+          </Paper>
+        </div>
       )})}
-    </List>
+    </GridList>
     <Chat addMessage={this.props.addMessage}/>
   </div>
 )}}
