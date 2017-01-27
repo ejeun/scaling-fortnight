@@ -29,3 +29,4 @@
 - npm run seed
 - npm run build
 - npm start
+- check out /cat to see our main feature
