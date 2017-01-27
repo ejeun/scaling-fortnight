@@ -34,3 +34,26 @@
 width: 70%;
 }
 
+#statement-bubble {
+
+  margin: 5%;
+   text-align: center;
+
+   border-radius: 20px !important;
+}
+
+.statement-by-cat {
+  background-color: #fffcf4 !important;
+}
+
+.statement-by-you {
+  background-color: lightcyan !important;
+}
+
+#tell-cat {
+
+}
+
+#message {
+
+}
