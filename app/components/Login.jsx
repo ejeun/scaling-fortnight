@@ -20,6 +20,7 @@ export const Login = ({ login }) => (
     <TextField
       hintText="password"
       name="password"
+      type="password"
     />
     <br />
     <Button

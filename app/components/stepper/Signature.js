@@ -9,6 +9,8 @@ import TextField from 'material-ui/TextField';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 
+import SignaturePad from 'react-signature-pad';
+
 
 /* -----------------    COMPONENT     ------------------ */
 
@@ -16,19 +18,16 @@ class Signature extends React.Component {
 
   constructor(props) {
     super(props)
-  }
 
+  }
 
   render() {
     return (
       <div>
-        <div className="signature-body">
-          <canvas></canvas>
-        </div>
-        <div className="signature-footer">
-          <RaisedButton label="Clear" style={{marginRight: 12}} />
-          <RaisedButton label="Save" primary={true} />
-        </div>
+        <h2>Please sign below</h2>
+        <Paper  zDepth={1}>
+          <SignaturePad clearButton="true" />
+        </Paper>
       </div>
     )
   }

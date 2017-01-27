@@ -1,5 +1,3 @@
-//I intend this to be boilerplate that we revise for our project. It's copied from Grace Shopper.
-
 import React from 'react';
 import { connect } from 'react-redux';
 
@@ -65,14 +63,17 @@ class Signup extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
+    const {step} = this.state;
+
+
   }
 
   getStepContent(step) {
     switch (step) {
       case 0:
-        return <CreateUser />;
+        return <CreateUser user={this.state.useraccount}/>;
       case 1:
-        return <Adopt />;
+        return <Adopt answers={this.state.paperwork}/>;
       case 2:
         return <Signature />;
       default:
@@ -102,7 +103,7 @@ class Signup extends React.Component {
               success! you can login (not actually yet)
             </div>
           ) : (
-            <div>
+            <form onSubmit={this.handleSubmit}>
               {this.getStepContent(step)}
               <div style={{marginTop: 12}}>
                 <FlatButton
@@ -112,12 +113,13 @@ class Signup extends React.Component {
                   style={{marginRight: 12}}
                 />
                 <RaisedButton
+                  type="submit"
                   label={step === 2 ? 'Finish' : 'Next'}
                   primary={true}
                   onTouchTap={this.handleNext}
                 />
               </div>
-            </div>
+            </form>
           )}
         </div>
       </div>

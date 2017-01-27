@@ -1,73 +1,51 @@
 import React from 'react';
-import { connect } from 'react-redux';
 
-import ArrowForwardIcon from 'material-ui/svg-icons/navigation/arrow-forward';
-import ArrowBackIcon from 'material-ui/svg-icons/navigation/arrow-back';
-import ChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
-import Paper from 'material-ui/Paper';
 import TextField from 'material-ui/TextField';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
-
-
 
 /* -----------------    COMPONENT     ------------------ */
 
-class CreateUser extends React.Component {
+export default (props) => {
+  return (
+    <div className="">
 
-  constructor(props) {
-    super(props)
-  }
+      <h2>Sign up</h2>
 
-  render() {
-    return(
-      <div className="">
+        <div>
+          <TextField
+            name="name"
+            floatingLabelText="Name"
+            defaultValue={props.user.name}
+          /><br />
+          <br />
+          <TextField
+            name="email"
+            floatingLabelText="Email"
+            defaultValue={props.user.email}
+            required
+          /><br />
+          <br />
+          <TextField
+            name="password"
+            floatingLabelText="Password"
+            type="password"
+            defaultValue={props.user.password}
+            required
+          /><br />
+          <br />
+          <TextField
+            name="passwordConfirm"
+            floatingLabelText="Confirm Password"
+            type="password"
+            errorText={props.errorText}
+            onChange={props.handleChangeConfirm}
+            defaultValue={props.user.passwordConfirm}
+            required
+          /><br />
+          <br />
 
-              <h2>Sign Up</h2>
-              <form onSubmit={this.handleSubmit}>
-                <div>
-                  <TextField
-                    name="name"
-                    hintText="Name"
-                    floatingLabelText="Name"
-                    onChange={this.handleChangeName}
-                  /><br />
-                  <br />
-                  <TextField
-                    name="email"
-                    hintText="Email"
-                    floatingLabelText="Email"
-                    onChange={this.handleChangeEmail}
-                  /><br />
-                  <br />
-                  <TextField
-                    name="password"
-                    hintText="Password"
-                    floatingLabelText="Password"
-                    type="password"
-                    onChange={this.handleChangePassword}
-                  /><br />
-                  <br />
-                  <TextField
-                    name="passwordConfirm"
-                    hintText="Confirm Password"
-                    floatingLabelText="Confirm Password"
-                    type="password"
-                    errorText={this.errorText}
-                    onChange={this.handleChangeConfirm}
-                  /><br />
-                  <br />
-{/*                  <RaisedButton type="submit" value="signUp" label="Sign Up" disabled={this.state.disabled} labelStyle={{color: 'white'}}/>*/}
-                </div>
-              </form>
-      </div>
-    )
-  }
+        </div>
+
+
+    </div>
+  )
 }
-
-
-/* -----------------    CONTAINER     ------------------ */
-
-const mapState = () => ({});
-const mapDispatch = () => ({});
-export default connect(mapState, mapDispatch)(CreateUser);
