@@ -1,5 +1,20 @@
 import axios from 'axios'
-import { INITIALIZE_USERS, CREATE_USER } from './constants'
+
+/* ------------       REDUCER     ------------------ */
+/*
+const reducer = (state=null, action) => {
+  switch(action.type) {
+  case AUTHENTICATED:
+    return action.user
+  }
+  return state
+}*/
+
+/* -----------------    ACTIONS     ------------------ */
+
+export const INITIALIZE_USERS = 'INITIALIZE_USERS'
+export const CREATE_USER = 'CREATE_USER'
+
 
 /* ------------     ACTION CREATORS     ------------------ */
 export const initUser = users => ({
@@ -14,7 +29,8 @@ export const createUser = user => ({
   user
 })
 
-/* ------------     THUNKS     ------------------ */
+/* ------------       DISPATCHERS     ------------------ */
+
 export const fetchUsers = () => {
   return dispatch => {
     return axios.get('/api/users')

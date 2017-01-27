@@ -4,6 +4,8 @@ const initialState = {
   messages: []
 }
 
+/* ------------       REDUCER     ------------------ */
+
 const reducer = (state=initialState, action) => {
   const newState = Object.assign({}, state);
   switch(action.type) {
@@ -16,7 +18,12 @@ const reducer = (state=initialState, action) => {
   return newState;
 }
 
+/* -----------------    ACTIONS     ------------------ */
+
 const ADD_MESSAGE = 'ADD_MESSAGE';
+
+/* ------------   ACTION CREATORS     ------------------ */
+
 export const addMessage = message => ({
   type: ADD_MESSAGE, message
 })
@@ -28,5 +35,7 @@ export const addMessage = message => ({
 //       .then(() => {})
 //       .catch(() => {})
 // }
+
+/* ------------------            ------------------ */
 
 export default reducer;
