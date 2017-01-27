@@ -37,7 +37,7 @@ width: 70%;
 #statement-bubble {
   margin: 1%;
   text-align: center;
-  border-radius: 20px !important;
+  border-radius: 10px !important;
 }
 
 .statement-by-cat {
