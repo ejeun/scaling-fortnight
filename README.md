@@ -17,7 +17,7 @@
 #not-yet-working parts:
 - no lasting info or points carried over from sessions on a user account
 - "game" aspect needs to be written into code (points, cat's personality)
-- chatbox doesn’t accept images yet, and images need to responded to appropriately
+- chatbox accepts images!! images need to be displayed and responded to appropriately
 
 #open / unresolved questions:
 - which are the most worthwhile and efficient ways to improve upon our existing markov chain? we want to cat to learn quickly and to make relevant responses without a huge load.
