@@ -26,7 +26,6 @@ export default (props) => {
             <TextField
               name="cat"
               floatingLabelText="Do you love cats?"
-              type="password"
               onChange={props.answers.handleLove}
             /><br />
             <br />
@@ -37,7 +36,6 @@ export default (props) => {
               onChange={props.answers.handleExp}
               multiLine={true}
               rows={2}
-
             /><br />
             <br />
 {/*                  <RaisedButton type="submit" value="signUp" label="Sign Up" disabled={this.state.disabled} labelStyle={{color: 'white'}}/>*/}
