@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import Markov from '../../server/markov/markov';
 import alice from '../../server/markov/books/alice';
-import {addMessage} from '../reducers/chat';
 import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
+import AddImage from './AddImage';
 
 // import lookingglass from '../../server/markov/books/lookingglass';
 
@@ -43,8 +43,9 @@ class Chat extends Component {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
+      <div id="chat-input">
+        <AddImage addMessage={this.props.addMessage}/>
+        <form onSubmit={this.handleSubmit} style={{display: "inline-block"}}>
           <TextField
             id="message"
             hintText="Enter message here"
