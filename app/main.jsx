@@ -1,21 +1,20 @@
 'use strict'
-import React from 'react'
-import {Router, Route, IndexRedirect, browserHistory} from 'react-router'
-import {render} from 'react-dom'
-import {connect, Provider} from 'react-redux'
+import React from 'react';
+import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
+import {render} from 'react-dom';
+import {connect, Provider} from 'react-redux';
 
-import store from './store'
+import store from './store';
 
-import App from './components/App'
-import Welcome from './components/Welcome'
+import App from './components/App';
+import Welcome from './components/Welcome';
 
-import Signup from './components/Signup'
-import Login from './components/Login'
-import WhoAmI from './components/WhoAmI'
+import Signup from './components/Signup';
+import Login from './components/Login';
 
-import CatContainer from './components/CatContainer'
-import ImageAPI from './components/ImageAPI'
-import Chat from './components/Chat'
+import CatContainer from './components/CatContainer';
+import ImageAPI from './components/ImageAPI';
+import Chat from './components/Chat';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
