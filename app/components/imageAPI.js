@@ -1,3 +1,6 @@
+/*GC Comment
+Can you explain the overlap between this component and AddImage?
+*/
 import React from 'react';
 import {connect} from 'react-redux';
 

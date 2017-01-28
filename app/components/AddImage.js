@@ -23,6 +23,9 @@ export default class AddImage extends React.Component {
 
   constructor(props){
     super(props);
+    /*GC Comment
+    What is the logic behing keeping the state in this addImage component instead of in the store? To my eye, it would be much cleaner to move this logic out of the component.
+    */
     this.state = {
       files: {},
       holdingURL: '',
@@ -48,6 +51,14 @@ export default class AddImage extends React.Component {
       lowercaseImageName.indexOf(".tiff") !== -1 ||
       lowercaseImageName.indexOf(".bmp") !== -1
     )
+
+    /*GC comment
+    Here's how I might do this.
+    -grab the suffix via regex. I think something like /\.\w+?$/ will do it, and you can use .match method
+    -check whether that suffix exists within an array of possible suffixes,
+    essentially ['jpg', 'jpeg', 'tiff', 'bmp'].includes (suffix)
+    -This is cleaner and it would be easier to add an additional suffix if you want (what if you want to include png one day, ya know?)
+    */
   }
 
   useClarifaiAPI(input){

@@ -26,6 +26,9 @@ export const Welcome = () => {
 
 /* -----------------    CONTAINER     ------------------ */
 
+/*GC Comment
+Does the welcome container need to have state?
+*/
 const mapState = () => ({});
 const mapDispatch = () => ({});
 
@@ -37,7 +40,7 @@ export default connect(mapState, mapDispatch)(Welcome);
 
 const styles = {
 	textDiv: {
-		fontFamily: 'Roboto', 
+		fontFamily: 'Roboto',
 		float: 'left',
 		width: '45%',
     	marginLeft: '8%',
