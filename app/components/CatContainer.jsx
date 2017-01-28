@@ -7,6 +7,10 @@ import Inf from './Inf';
 import {addMessage} from '../reducers/chat';
 
 
+/*
+Be careful about your use of containers - why is this component necessary? Remember that connect itself creates a container. You could use connect in the chat component.
+*/
+
 class CatContainer extends Component {
 
   constructor(props) {
