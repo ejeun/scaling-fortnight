@@ -61,21 +61,6 @@ export const signUp = (name, email, password) => {
   }
 }
 
-// export const signUp = (name, email, password) =>
-//   dispatch =>
-//     axios.post('/api/auth/signUp', {name, email, password})
-//       .then(() => {
-//         dispatch(login(email, password))
-//       })
-//       .then(() => {
-//         dispatch(whoami())
-//       })
-//       .then(() => {
-//         browserHistory.push('/')
-//       })
-//       .catch(() => {
-//         dispatch(whoami())
-//       })
 
 
 /* ------------------  default export     ------------------ */

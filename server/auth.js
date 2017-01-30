@@ -134,7 +134,24 @@ auth.post('/logout', (req, res, next) => {
 auth.post('/signup', (req, res, next) => {
   console.log(req.body, 'signup route')
   // TODO persist user in DB & send 201 status
-  res.send(201);
+  User.findOne({
+    where: {
+      email: req.body.email
+    }
+  })
+  .then(user => {
+    if(user){
+      res.status(409).send('User already exists');
+    } else {
+      return User.create(req.body)
+    }
+  })
+  .then(newUser => {
+    res.sendStatus(201);
+  })
+  .catch(next);
+
+
 })
 
 module.exports = auth
