@@ -1,8 +1,13 @@
-import axios from 'axios'
+import axios from 'axios';
+import {browserHistory} from 'react-router';
+
+const initialState = {
+  user: {},
+}
 
 /* ------------       REDUCER     ------------------ */
 
-const reducer = (state=null, action) => {
+const reducer = (state = initialState, action) => {
   switch(action.type) {
   case AUTHENTICATED:
     return action.user  
@@ -12,12 +17,12 @@ const reducer = (state=null, action) => {
 
 /* -----------------    ACTIONS     ------------------ */
 
-export const AUTHENTICATED = 'AUTHENTICATED'
+const AUTHENTICATED = 'AUTHENTICATED'
+const CREATE_USER = 'CREATE_USER';
 
 
 /* ------------     ACTION CREATORS     ------------------ */
 
-const AUTHENTICATED = 'AUTHENTICATED'
 export const authenticated = user => ({
   type: AUTHENTICATED, user
 })
@@ -46,6 +51,33 @@ export const whoami = () =>
       })
       .catch(failed => dispatch(authenticated(null)))
 
+export const signUp = newUser => {
+  return dispatch => {
+     axios.post('/api/users', newUser)
+    .then(() => dispatch(login(newUser.email, newUser.password)))
+    .then(() => dispatch(whoami()))
+    .then(() => browserHistory.push('/'))
+    .catch(err => console.error(`Creating user: ${newUser} unsuccesful`, err))
+  }
+}
+
+// export const signUp = (name, email, password) =>
+//   dispatch =>
+//     axios.post('/api/auth/signUp', {name, email, password})
+//       .then(() => {
+//         dispatch(login(email, password))
+//       })
+//       .then(() => {
+//         dispatch(whoami())
+//       })
+//       .then(() => {
+//         browserHistory.push('/')
+//       })
+//       .catch(() => {
+//         dispatch(whoami())
+//       })
+
+
 /* ------------------  default export     ------------------ */
 
-export default reducer
+export default reducer;

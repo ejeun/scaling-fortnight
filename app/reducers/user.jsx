@@ -12,7 +12,7 @@ const reducer = (state = initialState, action) => {
 
   switch(action.type) {
 
-  case user:
+  case SET_USER:
     newState.user = action.user;
     break;
 
@@ -25,15 +25,15 @@ const reducer = (state = initialState, action) => {
 
 const INITIALIZE_USERS = 'INITIALIZE_USERS';
 const CREATE_USER = 'CREATE_USER';
-const SELECT_USER = 'SELECT_USER';
+const SET_USER = 'SET_USER';
 
 
 /* ------------     ACTION CREATORS     ------------------ */
-export const initUser = users => ({
-  type: INITIALIZE_USERS,
-  loading: true,
-  users
-})
+// export const initUser = users => ({
+//   type: INITIALIZE_USERS,
+//   loading: true,
+//   users
+// })
 
 export const createUser = user => ({
   type: CREATE_USER,
@@ -41,8 +41,8 @@ export const createUser = user => ({
   user
 })
 
-export const selectUser = user => ({
-  type: SELECT_USER,
+export const setUser = user => ({
+  type: SET_USER,
   user
 })
 
