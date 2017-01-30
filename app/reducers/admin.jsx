@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const initialState = {
-  user: {},
+  allUsers: [],
 }
 
 /* ------------       REDUCER     ------------------ */
@@ -9,14 +9,6 @@ const initialState = {
 const reducer = (state = initialState, action) => {
 
   const newState = Object.assign({}, state);
-
-  switch(action.type) {
-
-  case SET_USER:
-    newState.user = action.user;
-    break;
-
-  }
 
   return newState
 }
