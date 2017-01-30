@@ -39,13 +39,23 @@ export class imageAPI extends React.Component {
     };
     this.database = firebase.database();
     const date = new Date().toJSON();
-
-    //var newPostKey = this.database.ref().child("users/Obama").push().key;
+    let firstEnter = true;
     var updates = {};
-    updates["/users/Obama/enter"] = date;
-    updates["/users/Obama/exit"] = date;
-    updates["/users/Obama/won"] = false;
-    this.database.ref().update(updates);
+
+    this.database.ref('/users/' + 'Obama').once('value').then((snapshot) => {
+      if (snapshot.val().enter && (snapshot.val().enter.slice(0, 10) === date.slice(0, 10))) {
+        console.log("same")
+        firstEnter = false;
+      }
+      // ...
+      if (firstEnter) updates["/users/Obama/enter"] = date;
+      updates["/users/Obama/exit"] = date;
+      updates["/users/Obama/won"] = false;
+      this.database.ref().update(updates);
+    });
+
+
+
 
     this.handleURLSubmit = this.handleURLSubmit.bind(this);
     this.handleImgUpload = this.handleImgUpload.bind(this);
@@ -108,7 +118,9 @@ export class imageAPI extends React.Component {
 
       // this changes the local state, which will
       this.storeTags(tags);
-      var newPostKey = this.database.ref().child("users/Obama/pictures").push(uploadName).key;
+
+      if (!uploadName) uploadName = input;
+      var newPostKey = this.database.ref().child("users/Obama/pictures").push().key;
       var updates = {};
       updates["/users/Obama/pictures/" + newPostKey] = {storage: uploadName, tags: tags.toString()};
       updates["/users/Obama/exit"] = new Date().toJSON();
@@ -218,7 +230,6 @@ export class imageAPI extends React.Component {
           var imgRef = storageRef.child(uploadName);
 
           imgRef.put(file).then(function(snapshot){
-            console.log(snapshot);
             console.log('uploaded blob!')
           })
         }
