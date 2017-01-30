@@ -12,6 +12,17 @@ var app = new Clarifai.App(
   keys.CLIENT_SECRET
 );
 
+import md5 from 'js-md5';
+
+// import * as firebase from 'firebase';
+// var config = {
+//     apiKey: "AIzaSyDD_3DoA6O902VqaQ-cjDO4benjjQ-eO1M",
+//     authDomain: "sphinx-65be3.firebaseapp.com",
+//     databaseURL: "https://sphinx-65be3.firebaseio.com",
+//     storageBucket: "sphinx-65be3.appspot.com",
+// };
+// firebase.initializeApp(config);
+
 /* ----- COMPONENT ----- */
 
 export class imageAPI extends React.Component {
@@ -47,7 +58,7 @@ export class imageAPI extends React.Component {
 
   useClarifaiAPI(input){
 
-    console.log('input', input)
+    // console.log('input', input)
     // clarifai provides this shortcut way of sending a req with the correct headers (ie. instead of sending a post request to the 3rd party server ourselves and getting the response) you only need to provide either the image in bytes OR a url for the image
     // https://developer.clarifai.com/guide/predict
 
@@ -73,7 +84,7 @@ export class imageAPI extends React.Component {
       // for clarifying purposes only
       //  - jenny
 
-      console.log(
+      /*console.log(
         'this is the whole response that clarifai sends back ',
         response
       )
@@ -84,7 +95,7 @@ export class imageAPI extends React.Component {
       console.log(
         'i like to filter that array of objects down to just single words of at least 80% certainty',
         tags
-      )
+      )*/
 
       // this changes the local state, which will
       this.storeTags(tags);
@@ -138,6 +149,7 @@ export class imageAPI extends React.Component {
       return;
     }
 
+
     this.useClarifaiAPI(e.target.imgurl.value);
 
   }
@@ -170,8 +182,10 @@ export class imageAPI extends React.Component {
         // Get window.URL object
         var URL = window.URL || window.webkitURL;
 
+        var imgURL = URL.createObjectURL(file);
+
         this.setState({
-          imgURL: URL.createObjectURL(file)
+          imgURL: imgURL
         })
 
         const fileReader = new FileReader()
@@ -181,6 +195,20 @@ export class imageAPI extends React.Component {
 
           const imgBytes = fileReader.result.split(',')[1]
           this.useClarifaiAPI(imgBytes)
+
+
+
+
+          var extension = file.name.split('.')[1];
+          var uploadName = md5(imgBytes) + '.' + extension;
+
+          var storageRef = firebase.storage().ref();
+          var imgRef = storageRef.child(uploadName);
+
+          imgRef.put(file).then(function(snapshot){
+            console.log('uploaded blob!')
+          })
+
         }
       }
       catch (err) {
