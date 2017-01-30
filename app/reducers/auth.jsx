@@ -51,10 +51,10 @@ export const whoami = () =>
       })
       .catch(failed => dispatch(authenticated(null)))
 
-export const signUp = newUser => {
+export const signUp = (name, email, password) => {
   return dispatch => {
-     axios.post('/api/users', newUser)
-    .then(() => dispatch(login(newUser.email, newUser.password)))
+     axios.post('/api/auth/signUp', {name, email, password})
+    .then(() => dispatch(login(email, password)))
     .then(() => dispatch(whoami()))
     .then(() => browserHistory.push('/'))
     .catch(err => console.error(`Creating user: ${newUser} unsuccesful`, err))

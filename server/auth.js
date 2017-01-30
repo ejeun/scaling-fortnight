@@ -131,5 +131,11 @@ auth.post('/logout', (req, res, next) => {
   res.redirect('/api/auth/whoami')
 })
 
+auth.post('/signup', (req, res, next) => {
+  console.log(req.body, 'signup route')
+  // TODO persist user in DB & send 201 status
+  res.send(201);
+})
+
 module.exports = auth
 
