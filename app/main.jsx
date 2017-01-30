@@ -3,6 +3,7 @@ import React from 'react';
 import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
 import {render} from 'react-dom';
 import {connect, Provider} from 'react-redux';
+import axios from 'axios';
 
 import store from './store';
 
@@ -23,11 +24,18 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
+const onMainEnter = () => {
+  const user = store.getState().auth;
+  axios.post('/api/auth/sessionUser', user) 
+  .then(res => console.log("req.session on enter", res))
+  .catch(console.error) 
+}
+
 render(
   <MuiThemeProvider>
     <Provider store={store}>
       <Router history={browserHistory}>
-        <Route path="/" component={App}>
+        <Route path="/" component={App} onEnter={onMainEnter}>
           <IndexRedirect to="/home" />
           <Route path="/home" component={Welcome} />
           <Route path="/signup" component={Signup} />

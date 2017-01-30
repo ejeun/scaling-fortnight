@@ -118,6 +118,32 @@ passport.use(new (require('passport-local').Strategy) (
   }
 ))
 
+
+auth.get('/', (req, res) => {
+  res.send(req.session)
+})
+
+auth.post('/sessionUser', function (req, res, next) {
+  console.log("inside /auth/sessionUser", req.body)
+  if(req.body.user.id){
+    console.log("yes! req.body.user", req.body.user);
+    // User.findOne({
+    // where: req.body
+    // })
+    // .then(user => req.session.userId = user.id)
+    // .catch("no user found in db");
+  } else {
+    console.log("no!req.body.user", req.body.user);
+    User.create()
+    .then(user => {
+      console.log("new user created", user);
+      req.session.userId = user.id
+    })
+    .catch("user not created sucessfully");
+  }
+  res.sendStatus(204);
+});
+
 auth.get('/whoami', (req, res) => res.send(req.user))
 
 auth.post('/:strategy/login', (req, res, next) =>
@@ -132,7 +158,6 @@ auth.post('/logout', (req, res, next) => {
 })
 
 auth.post('/signup', (req, res, next) => {
-  console.log(req.body, 'signup route')
   // TODO persist user in DB & send 201 status
   User.findOne({
     where: {

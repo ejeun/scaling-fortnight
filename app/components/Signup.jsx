@@ -37,7 +37,6 @@ export default connect (null, mapDispatchToProps) (
     }
 
     handleChangePassword(evt){
-      console.log(evt.target.value);
       this.setState({
         password : evt.target.value
       })
@@ -45,7 +44,6 @@ export default connect (null, mapDispatchToProps) (
 
 
     handleChangeConfirm(evt){
-      console.log(evt.target.value);
       if(this.state.password !== evt.target.value){
         this.setState({
             errorText : "Passwords must match.",
@@ -129,154 +127,3 @@ const style = {
 
 
 
-// import React from 'react';
-// import { connect } from 'react-redux';
-
-// import FlatButton from 'material-ui/FlatButton';
-// import RaisedButton from 'material-ui/RaisedButton';
-// // import {
-// //   Step,
-// //   Stepper,
-// //   StepLabel,
-// // } from 'material-ui/Stepper';
-
-// import CreateUser from './stepper/CreateUser';
-
-
-// // import { addUser } from '../action-creators/user';
-
-// /* -----------------    COMPONENT     ------------------ */
-// // SIGNUP is a smart component that renders one of three children components
-// // depending on the position of the stepper
-
-// // those dumb components are in the stepper folder
-
-// // props are passed to them...
-
-// // TO DO!! : form validation and sign up submission
-// // should actually create a user account with a new pet
-
-// class Signup extends React.Component {
-
-//   constructor(props) {
-//     super(props)
-
-//     this.state = {
-//       step: 0,
-//       finished: false,
-//       useraccount: {
-//         name: '',
-//         email: '',
-//         password: '',
-//         passwordConfirm: '',
-//       },
-//       paperwork: {
-//         color: '',
-//         food: '',
-//         cat: '',
-//         experience: '',
-//       },
-//       contract: {
-//         signature: false,
-//       },
-//     }
-//     this.handlePrev = this.handlePrev.bind(this);
-//     this.handleNext = this.handleNext.bind(this);
-//     this.handleSubmit = this.handleSubmit.bind(this);
-//   }
-
-//   handleNext() {
-//     const {step} = this.state;
-//     this.setState({
-//       step: step + 1,
-//       finished: step >= 2,
-//     });
-//   }
-
-//   handlePrev() {
-//     const {step} = this.state;
-//     if (step > 0) {
-//       this.setState({step: step - 1});
-//     }
-//   }
-
-//   handleSubmit(e){
-//     e.preventDefault();
-//     const {step} = this.state;
-
-
-//   }
-
-//   getStepContent(step) {
-//     switch (step) {
-//       case 0:
-//         return <CreateUser user={this.state.useraccount}/>;
-//       case 1:
-//         return <Adopt answers={this.state.paperwork}/>;
-//       case 2:
-//         return <Signature />;
-//       default:
-//         return 'error';
-//     }
-//   }
-
-//   render() {
-//     const {step, finished} = this.state
-
-//     return (
-//       <div>
-//         <Stepper activeStep={step}>
-//           <Step>
-//             <StepLabel>Create user account</StepLabel>
-//           </Step>
-//           <Step>
-//             <StepLabel>Adoption paperwork</StepLabel>
-//           </Step>
-//           <Step>
-//             <StepLabel>Signature</StepLabel>
-//           </Step>
-//         </Stepper>
-//         <div style={{margin: '0 16px'}}>
-//           {finished ? (
-//             <div>
-//               success! you can login (not actually yet)
-//             </div>
-//           ) : (
-//             <form onSubmit={this.handleSubmit}>
-//               {this.getStepContent(step)}
-//               <div style={{marginTop: 12}}>
-//                 <FlatButton
-//                   label="Back"
-//                   disabled={step === 0}
-//                   onTouchTap={this.handlePrev}
-//                   style={{marginRight: 12}}
-//                 />
-//                 <RaisedButton
-//                   type="submit"
-//                   label={step === 2 ? 'Finish' : 'Next'}
-//                   primary={true}
-//                   onTouchTap={this.handleNext}
-//                 />
-//               </div>
-//             </form>
-//           )}
-//         </div>
-//       </div>
-//     )
-//   }
-// }
-
-
-// /* -----------------    CONTAINER     ------------------ */
-
-// const mapState = state => {
-//   return {}
-// }
-
-// const mapDispatch = dispatch => {
-//   return {
-//     // signup: addUser
-//   }
-// }
-
-// export default connect(mapState, mapDispatch)(Signup);
