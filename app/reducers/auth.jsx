@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+/* ------------       REDUCER     ------------------ */
+
 const reducer = (state=null, action) => {
   switch(action.type) {
   case AUTHENTICATED:
@@ -8,10 +10,19 @@ const reducer = (state=null, action) => {
   return state
 }
 
+/* -----------------    ACTIONS     ------------------ */
+
+export const AUTHENTICATED = 'AUTHENTICATED'
+
+
+/* ------------     ACTION CREATORS     ------------------ */
+
 const AUTHENTICATED = 'AUTHENTICATED'
 export const authenticated = user => ({
   type: AUTHENTICATED, user
 })
+
+/* ------------       DISPATCHERS     ------------------ */
 
 export const login = (username, password) =>
   dispatch =>
@@ -34,5 +45,7 @@ export const whoami = () =>
         dispatch(authenticated(user))
       })
       .catch(failed => dispatch(authenticated(null)))
+
+/* ------------------  default export     ------------------ */
 
 export default reducer
