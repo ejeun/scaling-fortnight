@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router'
 
-import ChatBox from './ChatBox';
+//import ChatBox from './ChatBox';
 // import NavBar from './Navbar';
 
 

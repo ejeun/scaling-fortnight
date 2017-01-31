@@ -12,6 +12,17 @@ var app = new Clarifai.App(
   keys.CLIENT_SECRET
 );
 
+import md5 from 'js-md5';
+
+// import * as firebase from 'firebase';
+// var config = {
+//     apiKey: "AIzaSyDD_3DoA6O902VqaQ-cjDO4benjjQ-eO1M",
+//     authDomain: "sphinx-65be3.firebaseapp.com",
+//     databaseURL: "https://sphinx-65be3.firebaseio.com",
+//     storageBucket: "sphinx-65be3.appspot.com",
+// };
+// firebase.initializeApp(config);
+
 /* ----- COMPONENT ----- */
 
 export class imageAPI extends React.Component {
@@ -26,6 +37,25 @@ export class imageAPI extends React.Component {
       loading: false,
       error: '',
     };
+    this.database = firebase.database();
+    const date = new Date().toJSON();
+    let firstEnter = true;
+    var updates = {};
+
+    this.database.ref('/users/' + 'Obama').once('value').then((snapshot) => {
+      if (snapshot.val().enter && (snapshot.val().enter.slice(0, 10) === date.slice(0, 10))) {
+        console.log("same")
+        firstEnter = false;
+      }
+      // ...
+      if (firstEnter) updates["/users/Obama/enter"] = date;
+      updates["/users/Obama/exit"] = date;
+      updates["/users/Obama/won"] = false;
+      this.database.ref().update(updates);
+    });
+
+
+
 
     this.handleURLSubmit = this.handleURLSubmit.bind(this);
     this.handleImgUpload = this.handleImgUpload.bind(this);
@@ -45,9 +75,9 @@ export class imageAPI extends React.Component {
     )
   }
 
-  useClarifaiAPI(input){
+  useClarifaiAPI(input, uploadName){
 
-    console.log('input', input)
+    // console.log('input', input)
     // clarifai provides this shortcut way of sending a req with the correct headers (ie. instead of sending a post request to the 3rd party server ourselves and getting the response) you only need to provide either the image in bytes OR a url for the image
     // https://developer.clarifai.com/guide/predict
 
@@ -73,7 +103,7 @@ export class imageAPI extends React.Component {
       // for clarifying purposes only
       //  - jenny
 
-      console.log(
+      /*console.log(
         'this is the whole response that clarifai sends back ',
         response
       )
@@ -84,10 +114,18 @@ export class imageAPI extends React.Component {
       console.log(
         'i like to filter that array of objects down to just single words of at least 80% certainty',
         tags
-      )
+      )*/
 
       // this changes the local state, which will
       this.storeTags(tags);
+
+      if (!uploadName) uploadName = input;
+      var newPostKey = this.database.ref().child("users/Obama/pictures").push().key;
+      var updates = {};
+      updates["/users/Obama/pictures/" + newPostKey] = {storage: uploadName, tags: tags.toString()};
+      updates["/users/Obama/exit"] = new Date().toJSON();
+      // updates["/users/Obama/won"] = false; // or true
+      this.database.ref().update(updates);
     },
     err => {
       console.error(err);
@@ -138,6 +176,7 @@ export class imageAPI extends React.Component {
       return;
     }
 
+
     this.useClarifaiAPI(e.target.imgurl.value);
 
   }
@@ -170,18 +209,31 @@ export class imageAPI extends React.Component {
         // Get window.URL object
         var URL = window.URL || window.webkitURL;
 
-        this.setState({
-          imgURL: URL.createObjectURL(file)
-        })
+        var imgURL = URL.createObjectURL(file);
 
+        this.setState({
+          imgURL: imgURL
+        })
+        var uploadName = "";
         const fileReader = new FileReader()
         fileReader.readAsDataURL(file)
         // you only have access to the read file inside of this callback(?)function
         fileReader.onload = () => {
 
           const imgBytes = fileReader.result.split(',')[1]
-          this.useClarifaiAPI(imgBytes)
+          var extension = file.name.split('.')[1];
+          uploadName = md5(imgBytes) + '.' + extension;
+
+          this.useClarifaiAPI(imgBytes, uploadName)
+
+          var storageRef = firebase.storage().ref();
+          var imgRef = storageRef.child(uploadName);
+
+          imgRef.put(file).then(function(snapshot){
+            console.log('uploaded blob!')
+          })
         }
+
       }
       catch (err) {
         try {

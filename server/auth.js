@@ -118,17 +118,59 @@ passport.use(new (require('passport-local').Strategy) (
   }
 ))
 
+
+auth.get('/', (req, res) => {
+  res.send(req.session)
+})
+
 auth.get('/whoami', (req, res) => res.send(req.user))
 
 auth.post('/:strategy/login', (req, res, next) =>
-  passport.authenticate(req.params.strategy, {
-    successRedirect: '/'
+
+  passport.authenticate(req.params.strategy, (err, user, info) => {
+    if (err) return next(err);
+    if (!user) return res.send({success: false});
+    req.logIn(user, function(err) {
+      if (err) return next(err);
+      req.session.userId = req.user.id;
+      res.send({success: true});
+    })
   })(req, res, next)
 )
 
 auth.post('/logout', (req, res, next) => {
   req.logout()
   res.redirect('/api/auth/whoami')
+})
+
+auth.post('/signup', (req, res, next) => {
+  // TODO persist user in DB & send 201 status
+  User.findOne({
+    where: {
+      email: req.body.email
+    }
+  })
+  .then(user => {
+    if(user){
+      res.statusCode = 409;
+      return Promise.reject("User already exists");
+    } else {
+      return User.findOne({
+        where: {
+          id: req.session.userId
+        }
+      })
+      .then(user => {
+        return user.update(req.body)
+      })
+    }
+  })
+  .then(newUser => {
+    res.sendStatus(201);
+  })
+  .catch(next);
+
+
 })
 
 module.exports = auth
