@@ -7,6 +7,15 @@ const passport = require('passport')
 const PrettyError = require('pretty-error')
 
 const User = require('APP/db/models/user')
+import * as firebase from 'firebase';
+const config = {
+    apiKey: "AIzaSyDD_3DoA6O902VqaQ-cjDO4benjjQ-eO1M",
+    authDomain: "sphinx-65be3.firebaseapp.com",
+    databaseURL: "https://sphinx-65be3.firebaseio.com",
+    storageBucket: "sphinx-65be3.appspot.com",
+};
+firebase.initializeApp(config);
+const db = firebase.database();
 
 // Bones has a symlink from node_modules/APP to the root of the app.
 // That means that we can require paths relative to the app root by
@@ -49,15 +58,16 @@ module.exports = app
   // Create anonymous user in db & link to session
   .use((req, res, next) => {
     if(!req.session.userId) {
-      User.create()
-      .then(newUser => {
-        console.log("new user created");
-        req.session.userId = newUser.id
-      })
-      .then(() => next())
-      .catch(console.log("user not created sucessfully"));
-    } else {
-      next();
+      
+    //   User.create()
+    //   .then(newUser => {
+    //     console.log("new user created");
+    //     req.session.userId = newUser.id
+    //   })
+    //   .then(() => next())
+    //   .catch(console.log("user not created sucessfully"));
+    // } else {
+    //   next();
     }  
   })
 
