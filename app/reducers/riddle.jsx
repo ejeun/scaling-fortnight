@@ -16,11 +16,10 @@ const reducer = (state=initialState, action) => {
   switch(action.type) {
 
     case ADD_IMAGE:
-      return Object.assign({}, state, {images: [...newState.images, action.image]})
+      return Object.assign({}, state, {images: [...state.images, action.image]})
       break;
 
     case GUESSED:
-    console.log("state.solution", state.solution)
       if (action.tags) {
         for (let i = 0; i < action.tags.length; i ++) {
           if (state.solution.includes(action.tags[i])) {
@@ -29,20 +28,15 @@ const reducer = (state=initialState, action) => {
         }
         return Object.assign({}, state, {guessed: true, feedback: "Incorrect!"})
       }
-
       break;
-
 
     default:
       return state;
   }
-
-  return newState;
 }
 
 const ADD_IMAGE = 'ADD_IMAGE';
 const GUESSED = 'GUESSED';
-const GUESSED_CORRECTLY = 'GUESSED_CORRECTLY';
 
 export const addImage = image => ({
   type: ADD_IMAGE, image
@@ -51,6 +45,5 @@ export const addImage = image => ({
 export const updateGuessed = tags => ({
   type: GUESSED, tags
 })
-
 
 export default reducer;

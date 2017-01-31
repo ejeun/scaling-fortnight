@@ -91,6 +91,7 @@ export default class AddImage extends React.Component {
       // this changes the local state, which will
       this.storeTags(tags);
 
+      //Update the store:
       this.props.dispatchUpdateGuessed(tags);
 
     },

@@ -20,12 +20,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
 
-// After we implement the database, we will need to write a reducer "getCurrentRiddle" that retrieves a riddle from the database and places it in the store.
-
-// const onSphinxContainerEnter = function (nextRouterState) {
-//   store.dispatch(getCurrentRiddle);
-// };
-
 render(
   <MuiThemeProvider>
     <Provider store={store}>
