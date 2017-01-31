@@ -39,12 +39,6 @@ class Navbar extends Component {
           label="faq"
           labelStyle={{color:'white'}}
           containerElement={<Link to={'about'} />} />
-        <Button
-          label="logout"
-          labelStyle={{color:'white'}}
-          onClick={this.props.logout}
-          containerElement={<Link to={'home'} />}
-        />
       </div>
     )
   }
@@ -52,10 +46,10 @@ class Navbar extends Component {
   render() {
     return (
       <AppBar
-        title='navbar'
+        title='Sphinx'
         iconElementRight={
           <div className="navbar-btns">
-            {this.props.user ? this.user() : this.guest()}
+            {this.props.user.email ? this.user() : this.guest()}
           </div>
         }
       />

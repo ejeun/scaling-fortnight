@@ -1,38 +1,78 @@
-import axios from 'axios'
+import axios from 'axios';
+import {browserHistory} from 'react-router';
 
-const reducer = (state=null, action) => {
+const initialState = {
+  user: null,
+}
+
+/* ------------       REDUCER     ------------------ */
+
+const reducer = (state = initialState, action) => {
   switch(action.type) {
   case AUTHENTICATED:
-    return action.user  
+    return action.user
   }
   return state
 }
 
+/* -----------------    ACTIONS     ------------------ */
+
 const AUTHENTICATED = 'AUTHENTICATED'
+const CREATE_USER = 'CREATE_USER';
+
+
+/* ------------     ACTION CREATORS     ------------------ */
+
 export const authenticated = user => ({
   type: AUTHENTICATED, user
 })
 
-export const login = (username, password) =>
+/* ------------       DISPATCHERS     ------------------ */
+
+// for anonymous login
+// firebase.auth().signInAnonymously()
+
+export const anonLogin = () =>
   dispatch =>
-    axios.post('/api/auth/local/login',
-      {username, password})
-      .then(() => dispatch(whoami()))
-      .catch(() => dispatch(whoami()))      
+    firebase.auth().signInAnonymously()
+      .catch(() => console.log("login failed"));
+
+export const login = (email, password) =>
+  dispatch =>
+    firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => browserHistory.push('/'))
+      .catch(() => console.log("login failed"));
 
 export const logout = () =>
   dispatch =>
-    axios.post('/api/auth/logout')
-      .then(() => dispatch(whoami()))
-      .catch(() => dispatch(whoami()))
+    firebase.auth().signOut()
+    .then(() => browserHistory.push('/'))
+    .catch(() => console.log("logout failed"));
 
 export const whoami = () =>
   dispatch =>
-    axios.get('/api/auth/whoami')
-      .then(response => {
-        const user = response.data
-        dispatch(authenticated(user))
-      })
-      .catch(failed => dispatch(authenticated(null)))
+    firebase.auth().onAuthStateChanged(
+      user => {
+        if (user) dispatch(authenticated(user));
+        else dispatch(anonLogin())
+      },
+      error => console.log(error))
 
-export default reducer
+// this will overwrite any user's info, not just anon ones, need to fix later
+export const signUp = (name, email, password) => {
+  return dispatch => {
+    const user = firebase.auth().currentUser;
+    user.updatePassword(password)
+    .then(() => user.updateEmail(email))
+    .then(() => user.updateProfile({displayName: name}))
+    .then(() => browserHistory.push('/'))
+    .catch((error) => console.log(error))
+  }
+}
+
+
+
+
+/* ------------------  default export     ------------------ */
+
+export default reducer;
