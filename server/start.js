@@ -1,12 +1,8 @@
 'use strict'
 
 const express = require('express')
-const bodyParser = require('body-parser')
 const {resolve} = require('path')
-const passport = require('passport')
 const PrettyError = require('pretty-error')
-
-const User = require('APP/db/models/user')
 
 // Bones has a symlink from node_modules/APP to the root of the app.
 // That means that we can require paths relative to the app root by
@@ -32,40 +28,8 @@ prettyError.skipNodeFiles()
 prettyError.skipPackage('express')
 
 module.exports = app
-  // We'll store the whole session in a cookie
-  .use(require('cookie-session') ({
-    name: 'session',
-    keys: [process.env.SESSION_SECRET || 'an insecure secret key'],
-  }))
-
-  // Body parsing middleware
-  .use(bodyParser.urlencoded({ extended: true }))
-  .use(bodyParser.json())
-
-  // Authentication middleware
-  .use(passport.initialize())
-  .use(passport.session())
-
-  // Create anonymous user in db & link to session
-  .use((req, res, next) => {
-    if(!req.session.userId) {
-      User.create()
-      .then(newUser => {
-        console.log("new user created");
-        req.session.userId = newUser.id
-      })
-      .then(() => next())
-      .catch(console.log("user not created sucessfully"));
-    } else {
-      next();
-    }  
-  })
-
   // Serve static files from ../public
   .use(express.static(resolve(__dirname, '..', 'public')))
-
-  // Serve our api
-  .use('/api', require('./api'))
 
   // Send index.html for anything else.
   .get('/*', (_, res) => res.sendFile(resolve(__dirname, '..', 'public', 'index.html')))
