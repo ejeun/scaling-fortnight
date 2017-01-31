@@ -53,7 +53,7 @@ export const whoami = () =>
   dispatch =>
     firebase.auth().onAuthStateChanged(
       user => {
-        if (user) dispatch(authenticated(user));
+        if (user) dispatch(authenticated({...user}));
         else dispatch(anonLogin())
       },
       error => console.log(error))
@@ -65,7 +65,11 @@ export const signUp = (name, email, password) => {
     user.updatePassword(password)
     .then(() => user.updateEmail(email))
     .then(() => user.updateProfile({displayName: name}))
-    .then(() => browserHistory.push('/sphinx'))
+    .then(() => {
+      dispatch(authenticated({...user}));
+      browserHistory.push('/sphinx');
+    })
+
     .catch((error) => console.log(error))
   }
 }
