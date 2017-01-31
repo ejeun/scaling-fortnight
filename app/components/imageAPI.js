@@ -42,15 +42,14 @@ export class imageAPI extends React.Component {
     let firstEnter = true;
     var updates = {};
 
-    this.database.ref('/users/' + 'Obama').once('value').then((snapshot) => {
-      if (snapshot.val().enter && (snapshot.val().enter.slice(0, 10) === date.slice(0, 10))) {
-        console.log("same")
+    this.database.ref('/users/' + this.props.user.uid).once('value').then((snapshot) => {
+      if (snapshot.val() && snapshot.val().enter && (snapshot.val().enter.slice(0, 10) === date.slice(0, 10))) {
         firstEnter = false;
       }
       // ...
-      if (firstEnter) updates["/users/Obama/enter"] = date;
-      updates["/users/Obama/exit"] = date;
-      updates["/users/Obama/won"] = false;
+      if (firstEnter) updates[`/users/${this.props.user.uid}/enter`] = date;
+      updates[`users/${this.props.user.uid}/exit`] = date;
+      updates[`users/${this.props.user.uid}/won`] = false;
       this.database.ref().update(updates);
     });
 
@@ -120,10 +119,10 @@ export class imageAPI extends React.Component {
       this.storeTags(tags);
 
       if (!uploadName) uploadName = input;
-      var newPostKey = this.database.ref().child("users/Obama/pictures").push().key;
+      var newPostKey = this.database.ref().child(`/users/${this.props.user.uid}/pictures`).push().key;
       var updates = {};
-      updates["/users/Obama/pictures/" + newPostKey] = {storage: uploadName, tags: tags.toString()};
-      updates["/users/Obama/exit"] = new Date().toJSON();
+      updates[`/users/${this.props.user.uid}/pictures/` + newPostKey] = {storage: uploadName, tags: tags.toString()};
+      updates[`/users/${this.props.user.uid}/exit`] = new Date().toJSON();
       // updates["/users/Obama/won"] = false; // or true
       this.database.ref().update(updates);
     },
@@ -318,7 +317,9 @@ export class imageAPI extends React.Component {
 /* ----- CONTAINER ----- */
 
 const stateToProps = (state) => {
-  return {}
+  return {
+    user: state.auth
+  }
 };
 
 const dispatchToProps = (dispatch) => {

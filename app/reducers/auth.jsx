@@ -2,7 +2,7 @@ import axios from 'axios';
 import {browserHistory} from 'react-router';
 
 const initialState = {
-  user: {},
+  user: null,
 }
 
 /* ------------       REDUCER     ------------------ */
@@ -10,7 +10,7 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch(action.type) {
   case AUTHENTICATED:
-    return action.user  
+    return action.user
   }
   return state
 }
@@ -29,36 +29,43 @@ export const authenticated = user => ({
 
 /* ------------       DISPATCHERS     ------------------ */
 
-export const login = (username, password) =>
+// for anonymous login
+// firebase.auth().signInAnonymously()
+
+export const anonLogin = () =>
   dispatch =>
-    axios.post('/api/auth/local/login',
-      {username, password})
-      .then(() => dispatch(whoami()))
+    firebase.auth().signInAnonymously()
+      .catch(() => console.log("login failed"));
+
+export const login = (email, password) =>
+  dispatch =>
+    firebase.auth().signInWithEmailAndPassword(email, password)
       .then(() => browserHistory.push('/'))
-      .catch(() => dispatch(whoami()))      
+      .catch(() => console.log("login failed"));
 
 export const logout = () =>
   dispatch =>
-    axios.post('/api/auth/logout')
-      .then(() => dispatch(whoami()))
-      .catch(() => dispatch(whoami()))
+    firebase.auth().signOut()
+    .then(() => browserHistory.push('/'))
+    .catch(() => console.log("logout failed"));
 
 export const whoami = () =>
   dispatch =>
-    axios.get('/api/auth/whoami')
-      .then(response => {
-        const user = response.data
-        dispatch(authenticated(user))
-      })
-      .catch(failed => dispatch(authenticated(null)))
+    firebase.auth().onAuthStateChanged(
+      user => dispatch(authenticated(user)),
+      error => console.log(error))
+
 
 export const signUp = (name, email, password) => {
   return dispatch => {
-     axios.post('/api/auth/signUp', {name, email, password})
-    .then(() => dispatch(login(email, password)))
-    .then(() => dispatch(whoami()))
+    firebase.auth().createUserWithEmailAndPassword(email, password)
     .then(() => browserHistory.push('/'))
-    .catch(err => console.error(`Creating user: ${newUser} unsuccesful`, err))
+    .catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode, errorMessage);
+    })
   }
 }
 

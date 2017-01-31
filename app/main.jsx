@@ -20,9 +20,18 @@ import Chat from './components/Chat';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
+import {anonLogin} from './reducers/auth'
+
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
+
+// not sure if this should be here or in imageAPI
+const onImagesEnter = () => {
+  const user = store.getState().auth.user;
+  console.log(user)
+  if (!user) store.dispatch(anonLogin());
+}
 
 render(
   <MuiThemeProvider>
@@ -34,7 +43,7 @@ render(
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
           <Route path="/cat" component={CatContainer} />
-          <Route path="/images" component={ImageAPI} />
+          <Route path="/images" component={ImageAPI} onEnter={onImagesEnter}/>
           <Route path="/chat" component={Chat} />
         </Route>
       </Router>
