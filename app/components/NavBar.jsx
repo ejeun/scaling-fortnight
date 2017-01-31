@@ -46,7 +46,7 @@ class Navbar extends Component {
   render() {
     return (
       <AppBar
-        title='navbar'
+        title='Sphinx'
         iconElementRight={
           <div className="navbar-btns">
             {this.props.user.email ? this.user() : this.guest()}
