@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/FlatButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
 
 import {login, logout} from 'APP/app/reducers/auth';
 
@@ -47,6 +48,7 @@ class Navbar extends Component {
     return (
       <AppBar
         title='Sphinx'
+        iconElementLeft={<ActionHome color={red500} hoverColor={greenA200}/>}
         iconElementRight={
           <div className="navbar-btns">
             {this.props.user.email ? this.user() : this.guest()}

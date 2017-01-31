@@ -49,6 +49,11 @@ export default connect (null, mapDispatchToProps) (
             errorText : "Passwords must match.",
             disabled: true
         })
+      } else if (this.state.password.length < 6){
+        this.setState({
+          errorText: "Password must be at least 6 characters.",
+          disabled: true
+        })
       } else{
         this.setState({
             errorText : "",
