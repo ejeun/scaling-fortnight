@@ -1,6 +1,13 @@
-import axios from 'axios'
+import axios from 'axios';
+import {browserHistory} from 'react-router';
 
-const reducer = (state=null, action) => {
+const initialState = {
+  user: {},
+}
+
+/* ------------       REDUCER     ------------------ */
+
+const reducer = (state = initialState, action) => {
   switch(action.type) {
   case AUTHENTICATED:
     return action.user  
@@ -8,16 +15,26 @@ const reducer = (state=null, action) => {
   return state
 }
 
+/* -----------------    ACTIONS     ------------------ */
+
 const AUTHENTICATED = 'AUTHENTICATED'
+const CREATE_USER = 'CREATE_USER';
+
+
+/* ------------     ACTION CREATORS     ------------------ */
+
 export const authenticated = user => ({
   type: AUTHENTICATED, user
 })
+
+/* ------------       DISPATCHERS     ------------------ */
 
 export const login = (username, password) =>
   dispatch =>
     axios.post('/api/auth/local/login',
       {username, password})
       .then(() => dispatch(whoami()))
+      .then(() => browserHistory.push('/'))
       .catch(() => dispatch(whoami()))      
 
 export const logout = () =>
@@ -35,4 +52,18 @@ export const whoami = () =>
       })
       .catch(failed => dispatch(authenticated(null)))
 
-export default reducer
+export const signUp = (name, email, password) => {
+  return dispatch => {
+     axios.post('/api/auth/signUp', {name, email, password})
+    .then(() => dispatch(login(email, password)))
+    .then(() => dispatch(whoami()))
+    .then(() => browserHistory.push('/'))
+    .catch(err => console.error(`Creating user: ${newUser} unsuccesful`, err))
+  }
+}
+
+
+
+/* ------------------  default export     ------------------ */
+
+export default reducer;

@@ -7,7 +7,7 @@
 const User = require('./user');
 const Cat = require('./cat');
 
-Cat.belongsTo(User, {as: 'pet'});
+// Cat.belongsTo(User, {as: 'Pet'});
 
 module.exports = {User, Cat};
 

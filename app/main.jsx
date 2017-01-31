@@ -3,6 +3,7 @@ import React from 'react';
 import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
 import {render} from 'react-dom';
 import {connect, Provider} from 'react-redux';
+import axios from 'axios';
 
 import store from './store';
 
@@ -27,7 +28,7 @@ render(
   <MuiThemeProvider>
     <Provider store={store}>
       <Router history={browserHistory}>
-        <Route path="/" component={App}>
+        <Route path="/" component={App} >
           <IndexRedirect to="/home" />
           <Route path="/home" component={Welcome} />
           <Route path="/signup" component={Signup} />
