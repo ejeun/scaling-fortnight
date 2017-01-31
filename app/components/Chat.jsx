@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import {connect} from 'react-redux';
-import Markov from '../../server/markov/markov';
-import alice from '../../server/markov/books/alice';
-import axios from 'axios';
+//import Markov from '../../server/markov/markov';
+//import alice from '../../server/markov/books/alice';
+//import axios from 'axios';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import AddImage from './AddImage';
@@ -14,8 +14,8 @@ class Chat extends Component {
   constructor() {
     super();
     // create a new markov chain and give it alice in wonderland
-    const markov = new Markov(2);
-    markov.add(alice);
+    const markov = {};
+    markov.add();
 
     this.state = {
       markov: markov,

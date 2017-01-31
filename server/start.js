@@ -1,9 +1,7 @@
 'use strict'
 
 const express = require('express')
-const bodyParser = require('body-parser')
 const {resolve} = require('path')
-const passport = require('passport')
 const PrettyError = require('pretty-error')
 
 // Bones has a symlink from node_modules/APP to the root of the app.
@@ -30,10 +28,6 @@ prettyError.skipNodeFiles()
 prettyError.skipPackage('express')
 
 module.exports = app
-  // Body parsing middleware
-  .use(bodyParser.urlencoded({ extended: true }))
-  .use(bodyParser.json())
-
   // Serve static files from ../public
   .use(express.static(resolve(__dirname, '..', 'public')))
 

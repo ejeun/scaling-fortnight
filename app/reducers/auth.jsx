@@ -52,22 +52,24 @@ export const logout = () =>
 export const whoami = () =>
   dispatch =>
     firebase.auth().onAuthStateChanged(
-      user => dispatch(authenticated(user)),
+      user => {
+        if (user) dispatch(authenticated(user));
+        else dispatch(anonLogin())
+      },
       error => console.log(error))
 
-
+// this will overwrite any user's info, not just anon ones, need to fix later
 export const signUp = (name, email, password) => {
   return dispatch => {
-    firebase.auth().createUserWithEmailAndPassword(email, password)
+    const user = firebase.auth().currentUser;
+    user.updatePassword(password)
+    .then(() => user.updateEmail(email))
+    .then(() => user.updateProfile({displayName: name}))
     .then(() => browserHistory.push('/'))
-    .catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-    })
+    .catch((error) => console.log(error))
   }
 }
+
 
 
 
