@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {updateGuessed, updateGuessedCorrectly} from '../reducers/riddle';
+import {updateGuessed} from '../reducers/riddle';
 import store from '../store';
 
 // keys are in seperate file and is added to the .gitignore so that our account secrets arenot exposed through github or deployment
@@ -16,7 +16,7 @@ var app = new Clarifai.App(
 
 /* ----- COMPONENT ----- */
 
-export default class UploadImage extends React.Component {
+export default class AddImage extends React.Component {
 
   constructor(props){
     super(props);
@@ -91,16 +91,7 @@ export default class UploadImage extends React.Component {
       // this changes the local state, which will
       this.storeTags(tags);
 
-      store.dispatch(updateGuessed);
-
-      let solution = this.props.solution;
-      tags.forEach(function(tag){
-        if (solution.includes(tag)) {
-          // If one of the tags matches one of the words in the solution, update the store to show the user guessed correctly.
-          store.dispatch(updateGuessedCorrectly);
-        }
-      });
-
+      this.props.dispatchUpdateGuessed(tags);
 
     },
     err => {

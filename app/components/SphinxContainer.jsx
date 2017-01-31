@@ -3,8 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Sphinx from './Sphinx';
 import Riddle from './Riddle';
-import Inf from './Inf';
-import {addImage} from '../reducers/riddle';
+import {addImage,updateGuessed} from '../reducers/riddle';
 
 
 class SphinxContainer extends Component {
@@ -17,12 +16,13 @@ class SphinxContainer extends Component {
       <div className="home">
         <div className="chat">
           <Riddle
-            //hard-code props until we set up the database
-            currentRiddle={"What is the creature that walks on four legs in the morning, two legs at noon and three in the evening?"}
-            solution={["human", "man", "person"]}
+            currentRiddle={this.props.currentRiddle}
+            solution={this.props.solution}
             guessed={this.props.guessed}
             guessedCorrectly={this.props.guessedCorrectly}
             images={this.props.images}
+            feedback={this.props.feedback}
+            dispatchUpdateGuessed={this.props.dispatchUpdateGuessed}
           />
         </div>
         <div className="cat">
@@ -42,16 +42,21 @@ const mapStateToProps = state => {
     solution: state.riddle.solution,
     guessed: state.riddle.guessed,
     guessedCorrectly: state.riddle.guessedCorrectly,
-    images: state.riddle.images
+    images: state.riddle.images,
+    feedback: state.riddle.feedback
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
+  return ({
     dispatchAddImage (image) {
       return dispatch(addImage(image));
+    },
+    dispatchUpdateGuessed (tags) {
+      return dispatch(updateGuessed(tags));
     }
-  };
+
+  });
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SphinxContainer);

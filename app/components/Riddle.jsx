@@ -13,7 +13,7 @@ import MenuItem from 'material-ui/MenuItem';
 //import FontIcon from 'material-ui/FontIcon';
 import IconButton from 'material-ui/IconButton';
 import AddPhoto from 'material-ui/svg-icons/image/add-a-photo';
-import UploadImage from './UploadImage';
+import AddImage from './AddImage';
 
 export default class Riddle extends Component {
   constructor(props) {
@@ -21,16 +21,17 @@ export default class Riddle extends Component {
   }
 
   render() {
+
     return (
       <div>
         <div id="riddle">
           {this.props.currentRiddle}
         </div>
 
-        <UploadImage solution={this.props.solution} />
+        <AddImage solution={this.props.solution} dispatchUpdateGuessed={this.props.dispatchUpdateGuessed} />
 
-        <div id="outcome">
-          {this.props.guessed && this.props.guessedCorrectly ? "Correct!" : "Incorrect!"}
+        <div id="feedback">
+          {this.props.feedback}
         </div>
 
         <div>
