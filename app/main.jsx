@@ -13,10 +13,7 @@ import Welcome from './components/Welcome';
 import Signup from './components/Signup';
 import Login from './components/Login';
 
-import CatContainer from './components/CatContainer';
-import ImageAPI from './components/ImageAPI';
-import Chat from './components/Chat';
-
+import SphinxContainer from './components/SphinxContainer';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -33,9 +30,7 @@ render(
           <Route path="/home" component={Welcome} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
-          <Route path="/cat" component={CatContainer} />
-          <Route path="/images" component={ImageAPI} />
-          <Route path="/chat" component={Chat} />
+          <Route path="/sphinx" component={SphinxContainer} />
         </Route>
       </Router>
     </Provider>
