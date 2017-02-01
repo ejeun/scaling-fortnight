@@ -40,7 +40,7 @@ export const anonLogin = () =>
 export const login = (email, password) =>
   dispatch =>
     firebase.auth().signInWithEmailAndPassword(email, password)
-      .then(() => browserHistory.push('/'))
+      .then(() => browserHistory.push('/sphinx'))
       .catch(() => console.log("login failed"));
 
 export const logout = () =>
@@ -67,8 +67,9 @@ export const signUp = (name, email, password) => {
     .then(() => user.updateProfile({displayName: name}))
     .then(() => {
       dispatch(authenticated({...user}));
-      browserHistory.push('/');
+      browserHistory.push('/sphinx');
     })
+
     .catch((error) => console.log(error))
   }
 }

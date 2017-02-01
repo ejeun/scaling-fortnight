@@ -1,9 +1,11 @@
 import React, { Component} from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router';
+import { Link, browserHistory } from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import Button from 'material-ui/FlatButton';
+import ActionHome from 'material-ui/svg-icons/action/home';
+import IconButton from 'material-ui/IconButton';
 
 import {login, logout} from 'APP/app/reducers/auth';
 
@@ -44,9 +46,26 @@ class Navbar extends Component {
   }
 
   render() {
+    const iconStyles = {
+      width: '40px',
+      height: '40px'
+    };
+
     return (
       <AppBar
         title='Sphinx'
+        iconElementLeft={
+          // <img src='/home.png' />
+          <IconButton
+            onClick={() => browserHistory.push('/home')}
+            iconStyle={{color: '#FFFFFF'}}>
+            <ActionHome
+              style={iconStyles}
+              color={'#FFFFFF'}
+              hoverColor={'#FEDFD1'}
+            />
+          </IconButton>}
+
         iconElementRight={
           <div className="navbar-btns">
             {this.props.user.email ? this.user() : this.guest()}
