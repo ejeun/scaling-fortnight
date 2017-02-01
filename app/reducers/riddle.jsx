@@ -21,7 +21,6 @@ const reducer = (state=initialState, action) => {
 
     case UPDATE_RIDDLE:
       let solution = Object.keys(action.riddle.solution).map(key => {return action.riddle.solution[key]});
-      console.log("solution:", solution)
       return Object.assign({}, state, {currentRiddle: action.riddle.question, solution: solution});
       break;
 
