@@ -3,25 +3,25 @@ import React from 'react';
 import {Router, Route, IndexRedirect, browserHistory} from 'react-router';
 import {render} from 'react-dom';
 import {connect, Provider} from 'react-redux';
-
 import store from './store';
-
 import App from './components/App';
-import Welcome from './components/Welcome';
-
 import Signup from './components/Signup';
 import Login from './components/Login';
-
-import CatContainer from './components/CatContainer';
-import ImageAPI from './components/ImageAPI';
-import Chat from './components/Chat';
-
+import Welcome from './components/Welcome';
+import SphinxContainer from './components/SphinxContainer';
+import {getRiddle} from './reducers/riddle';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 // Needed for onTouchTap
 // http://stackoverflow.com/a/34015469/988941
 injectTapEventPlugin();
+
+const onSphinxEnter = () => {
+  let today = new Date();
+  let todayNum = today.getDay();
+  store.dispatch(getRiddle(todayNum));
+}
 
 render(
   <MuiThemeProvider>
@@ -32,9 +32,7 @@ render(
           <Route path="/home" component={Welcome} />
           <Route path="/signup" component={Signup} />
           <Route path="/login" component={Login} />
-          <Route path="/cat" component={CatContainer} />
-          <Route path="/images" component={ImageAPI} />
-          <Route path="/chat" component={Chat} />
+          <Route path="/sphinx" component={SphinxContainer} onEnter={onSphinxEnter}/>
         </Route>
       </Router>
     </Provider>

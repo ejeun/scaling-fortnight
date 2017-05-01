@@ -34,20 +34,6 @@
 width: 70%;
 }
 
-#statement-bubble {
-  margin: 1%;
-  text-align: center;
-  border-radius: 20px !important;
-}
-
-.statement-by-cat {
-  background-color: #fffcf4 !important;
-}
-
-.statement-by-you {
-  background-color: lightcyan !important;
-}
-
 .splash {
   height: 100vh;
   display: flex;
@@ -60,5 +46,13 @@ width: 70%;
   align-items: flex-start;
   flex-direction: column;
   justify-content: center;
+}
+
+#riddle {
+  font-size: 25px;
+}
+
+#feedback {
+  font-size: 35px;
 }
 

@@ -1,10 +1,7 @@
 import React from 'react';
-import IconMenu from 'material-ui/IconMenu';
-import MenuItem from 'material-ui/MenuItem';
-import IconButton from 'material-ui/IconButton';
-import AddPhoto from 'material-ui/svg-icons/image/add-a-photo';
-import Divider from 'material-ui/Divider';
-import RaisedButton from 'material-ui/RaisedButton';
+import {connect} from 'react-redux';
+import {updateGuessed} from '../reducers/riddle';
+import store from '../store';
 
 // keys are in seperate file and is added to the .gitignore so that our account secrets arenot exposed through github or deployment
 import keys from 'APP/keys.js';
@@ -51,10 +48,8 @@ export default class AddImage extends React.Component {
   }
 
   useClarifaiAPI(input){
-    // ********currently isn't displayed on the site, but it does work**************
 
-    //console.log('input', input)
-
+    console.log('input', input)
     // clarifai provides this shortcut way of sending a req with the correct headers (ie. instead of sending a post request to the 3rd party server ourselves and getting the response) you only need to provide either the image in bytes OR a url for the image
     // https://developer.clarifai.com/guide/predict
 
@@ -80,21 +75,25 @@ export default class AddImage extends React.Component {
       // for clarifying purposes only
       //  - jenny
 
-      // console.log(
-      //   'this is the whole response that clarifai sends back ',
-      //   response
-      // )
-      // console.log(
-      //   'inside the response, the outputs array has data on the words associated with the input image, which i call predictions ',
-      //   predictions
-      //   )
-      // console.log(
-      //   'i like to filter that array of objects down to just single words of at least 80% certainty',
-      //   tags
-      // )
+      console.log(
+        'this is the whole response that clarifai sends back ',
+        response
+      )
+      console.log(
+        'inside the response, the outputs array has data on the words associated with the input image, which i call predictions ',
+        predictions
+        )
+      console.log(
+        'i like to filter that array of objects down to just single words of at least 80% certainty',
+        tags
+      )
 
       // this changes the local state, which will
       this.storeTags(tags);
+
+      //Update the store:
+      this.props.dispatchUpdateGuessed(tags);
+
     },
     err => {
       console.error(err);
@@ -136,8 +135,6 @@ export default class AddImage extends React.Component {
         tags: [],
         error: '',
       })
-      // send the image as a message
-      this.props.addMessage(['you', e.target.imgurl.value, true]);
     }
 
     else {
@@ -178,13 +175,10 @@ export default class AddImage extends React.Component {
       try {
         // Get window.URL object
         var URL = window.URL || window.webkitURL;
-        const imgURL = URL.createObjectURL(file);
 
         this.setState({
-          imgURL: imgURL
+          imgURL: URL.createObjectURL(file)
         })
-        // send the image as a message
-        this.props.addMessage(['you', imgURL, true]);
 
         const fileReader = new FileReader()
         fileReader.readAsDataURL(file)
@@ -214,46 +208,58 @@ export default class AddImage extends React.Component {
     }
   }
 
+// check for file compatability before app crashes because of a PNG or GIF...
+/*     if(filename.value == '') {
+            alert('Please browse for a file!');
+            return;
+          }
+
+          else if (!this.validFile(filename.value)) {
+            alert('Supported File Types: JPEG, PNG, TIFF, BMP');
+            return;
+          }*/
+
   render(){
     return (
-      <IconMenu
-          style={{display: "inline-block"}}
-          id="photo-button"
-          iconButtonElement={<IconButton><AddPhoto /></IconButton>}
-          anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          targetOrigin={{horizontal: 'left', vertical: 'bottom'}}
-          touchTapCloseDelay={0}
-        >
-          <MenuItem primaryText="Image URL:" />
-          <MenuItem>
-            <div>
-              { this.state.error && <div className="alert alert-warning">{this.state.error}</div> }
-              <form onSubmit={this.handleURLSubmit}>
-                <input
-                  type="submit"
-                  value="Use this image URL"
-                  size="80"
-                />
-                <input
-                  type="text"
-                  id="imgurl"
-                  placeholder="Image URL"
-                />
-              </form>
-            </div>
-          </MenuItem>
-          <Divider />
-          <MenuItem primaryText="From file:"/>
-          <MenuItem>
-            <input
-              id="take-picture"
-              type="file"
-              onChange={this.handleImgUpload}
-              accept="image/*"
-              />
-          </MenuItem>
-        </IconMenu>
+      <div className="container">
+      { this.state.error && <div className="alert alert-warning">{this.state.error}</div> }
+        <form onSubmit={this.handleURLSubmit}>
+          <input
+            type="submit"
+            value="Use this image URL"
+            size="80"
+          />
+          <input
+            type="text"
+            id="imgurl"
+            placeholder="Image URL"
+          />
+        </form>
+
+        <br/><br/>
+
+        <input
+          type="file"
+          id="take-picture"
+          accept="image/*"
+          onChange={this.handleImgUpload}
+        ></input>
+
+        <div>
+          <img
+            id="show-picture"
+            className="img-responsive"
+            src={this.state.imgURL}
+            height="auto"
+            width="300"
+            ></img>
+        </div>
+
+
+      </div>
     )
   }
 }
+
+/* ----- CONTAINER ----- */
 

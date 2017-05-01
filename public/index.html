@@ -2,13 +2,30 @@
 
 <html lang="en">
   <head>
-    <title>Virtual Cat</title>
+    <title>Sphinx</title>
     <link href='/normalize.css' rel='stylesheet' >
     <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
     <link href="/style.css" rel="stylesheet" />
+    <script src="https://www.gstatic.com/firebasejs/3.6.7/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyDD_3DoA6O902VqaQ-cjDO4benjjQ-eO1M",
+        authDomain: "sphinx-65be3.firebaseapp.com",
+        databaseURL: "https://sphinx-65be3.firebaseio.com",
+        storageBucket: "sphinx-65be3.appspot.com",
+        messagingSenderId: "926994288042"
+      };
+      firebase.initializeApp(config);
+
+    </script>
+
     <script src="/bundle.js" defer></script>
+
   </head>
   <body>
     <div id="app"></div>
   </body>
 </html>
+
+
